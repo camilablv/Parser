@@ -6,6 +6,7 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 #include "olx.h"
+#include <uybor.h>
 
 class Controller : public QObject
 {
@@ -22,6 +23,7 @@ private:
     QQmlApplicationEngine engine;
     QObject *root;
     Olx olx;
+    UyBor uyBor;
 };
 
 #endif // CONTROLLER_H

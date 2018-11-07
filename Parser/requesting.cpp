@@ -22,7 +22,7 @@ QByteArray Requesting::pageText(QUrl pageUrl)
 
 QByteArray Requesting::phoneText(QUrl pageUrl, QString id, QString token)
 {
-    if(id == "" && token == "") return "";
+    if(id == "" || token == "") return "";
     QUrl url("https://olx.uz/ajax/misc/contact/phone/"+id+"/?pt="+token);
     QNetworkRequest request(url);
     request.setRawHeader(QString("Referer").toUtf8(), pageUrl.toEncoded());

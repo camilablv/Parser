@@ -17,7 +17,8 @@ SOURCES += \
     controller.cpp \
     olx.cpp \
     write.cpp \
-    requesting.cpp
+    requesting.cpp \
+    uybor.cpp
 
 RESOURCES += qml.qrc
 
@@ -53,4 +54,5 @@ HEADERS += \
     controller.h \
     olx.h \
     write.h \
-    requesting.h
+    requesting.h \
+    uybor.h

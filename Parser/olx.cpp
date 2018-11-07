@@ -40,6 +40,13 @@ void Olx::ParseOlx(QByteArray html)
             if(attr.at(j).name() == "href")
             {
                 QUrl pageAddress(attr.at(j).value());
+
+//                QTimer timer;
+//                timer.setSingleShot(true);
+//                timer.start(10000);
+//                connect(&timer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
+//                eventLoop.exec();
+
                 QByteArray page = request->pageText(pageAddress);
                 if(page.isEmpty()) continue;
                 QString id = phoneId(page);
@@ -224,6 +231,7 @@ QString Olx::Token(QByteArray array) //токен объявления
     QGumboNode root = document.rootNode(); //передаем тег <html> в root
     QGumboNodes body = root.getElementsByTagName(HtmlTag::SECTION);
     if(0 < body.size()) section =  body.at(0);
+    else return "";
     QGumboNodes script;
     if(section.isElement()) script = section.getElementsByTagName(HtmlTag::SCRIPT);
     if(0 < script.size()) phoneToken = script.at(0).innerText();
