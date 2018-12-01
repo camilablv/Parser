@@ -9,6 +9,7 @@
 #include <qgumbonode.h>
 #include <qgumboattribute.h>
 #include <QEventLoop>
+#include <QUrlQuery>
 
 class Requesting : public QObject
 {
@@ -17,7 +18,8 @@ public:
     explicit Requesting(QObject *parent = nullptr);
     ~Requesting();
     QByteArray pageText(QUrl pageUrl);
-    QByteArray phoneText(QUrl pageUrl, QString id, QString token);
+    QByteArray olxPhoneText(QUrl pageUrl, QString id, QString token);
+    QByteArray uyBorAdList(int page);
 
 signals:
 

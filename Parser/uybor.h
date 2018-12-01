@@ -4,6 +4,7 @@
 #include <QObject>
 #include <write.h>
 #include <requesting.h>
+#include <jsonreader.h>
 #include <QUrl>
 #include <qgumbodocument.h>
 #include <qgumbonode.h>
@@ -15,6 +16,7 @@ class UyBor : public QObject
     Q_OBJECT
 public:
     explicit UyBor(QObject *parent = nullptr);
+    ~UyBor();
     void Start();
 
     //ПЕРЕМЕННЫЕ
@@ -26,11 +28,12 @@ signals:
 public slots:
 
 private:
-    void ParseUyBor(QByteArray html);
-    void ParseUyBorPage(QByteArray arr);
+    void ParseUyBor();
+    QMap<int, QString> ParseUyBorPage(QByteArray arr);
     QNetworkAccessManager *manager;
     Requesting *request;
     Write *write;
+    JsonReader *jsonReader;
 };
 
 #endif // UYBOR_H

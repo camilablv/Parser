@@ -19,7 +19,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+//#ifndef _WIN32
 #include <strings.h>
+//#endif
 
 #include "string_piece.h"
 #include "util.h"

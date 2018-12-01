@@ -18,7 +18,8 @@ SOURCES += \
     olx.cpp \
     write.cpp \
     requesting.cpp \
-    uybor.cpp
+    uybor.cpp \
+    jsonreader.cpp
 
 RESOURCES += qml.qrc
 
@@ -55,4 +56,5 @@ HEADERS += \
     olx.h \
     write.h \
     requesting.h \
-    uybor.h
+    uybor.h \
+    jsonreader.h

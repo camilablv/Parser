@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
-SUBDIRS += Parser libs/QGumboParser/QGumboParser
+SUBDIRS += libs/QGumboParser/QGumboParser Parser
 CONFIG += ordered
 

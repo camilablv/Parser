@@ -1,40 +1,46 @@
 #include "uybor.h"
 
+
 UyBor::UyBor(QObject *parent) : QObject(parent)
 {
     request = new Requesting;
     write = new Write;
+    jsonReader = new JsonReader;
 }
 
+UyBor::~UyBor()
+{
+    delete request;
+    delete write;
+    delete jsonReader;
+}
 
 void UyBor::Start()
 {
-    QUrl url("https://uybor.uz/ru/prodazha-kvartir/kvartiry-v-tashkente?page=1");
-    ParseUyBor(request->pageText(url));
+    ParseUyBor();
 }
 
 
-void UyBor::ParseUyBor(QByteArray html)
+void UyBor::ParseUyBor()
 {
-    QGumboDocument document = QGumboDocument::parse(html);
-    QGumboNode root = document.rootNode();
-    QGumboNodes tagMain = root.getElementById("main");
-    QGumboNodes tagMainChildren = tagMain.at(0).children();
-    for(uint i = 0; i < tagMainChildren.size(); i++)
+    int row = 1;
+    int pages = jsonReader->lastPage(request->uyBorAdList(1));
+    for(int i = 1; i <= pages; i++)
     {
-        QGumboAttributes attr = tagMainChildren.at(i).allAttributes();
-        if(attr.size() == 0) continue;
-        if(attr.at(0).value() == "listing")
+        QStringList list = jsonReader->adList(request->uyBorAdList(i));
+        for(int j = 0; j < list.count(); j++)
         {
-            QGumboNodes ch = tagMainChildren.at(i).children();
-            if(ch.size() == 0) continue;
+            if(list.at(j).isEmpty()) continue;
+            QMap<int, QString> adList = ParseUyBorPage(request->pageText(list.at(j)));
+            write->writeToExcel(adList, row);
+            row++;
         }
     }
 
 }
 
 
-void UyBor::ParseUyBorPage(QByteArray arr)
+QMap<int, QString> UyBor::ParseUyBorPage(QByteArray arr)
 {
     QRegExp spaces("\\s+");
     QMap<int, QString> data;
@@ -153,5 +159,8 @@ void UyBor::ParseUyBorPage(QByteArray arr)
 
     }
     data.insert(38, "uyBor");
-    write->writeToExcel(data, 1);
+    return data;
 }
+
+
+

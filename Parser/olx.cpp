@@ -51,7 +51,7 @@ void Olx::ParseOlx(QByteArray html)
                 if(page.isEmpty()) continue;
                 QString id = phoneId(page);
                 QString token = Token(page);
-                QByteArray phone = request->phoneText(pageAddress, id, token);
+                QByteArray phone = request->olxPhoneText(pageAddress, id, token);
                 QList<QByteArray> data{page, phone};
                 QMap<int, QString> listData = ParseOlxPage(data);
                 write->writeToExcel(listData, row);
