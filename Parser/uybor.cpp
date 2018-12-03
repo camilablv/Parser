@@ -31,7 +31,11 @@ void UyBor::ParseUyBor()
         for(int j = 0; j < list.count(); j++)
         {
             if(list.at(j).isEmpty()) continue;
-            QMap<int, QString> adList = ParseUyBorPage(request->pageText(list.at(j)));
+            QByteArray pageText = request->pageText(list.at(j));
+            QString id = phoneId(pageText);
+            QString token = phoneToken(pageText);
+            QStringList phone = jsonReader->phoneList(request->uyBorPhoneText(id, token, list.at(j)));
+            QMap<int, QString> adList = ParseUyBorPage(pageText, phone);
             write->writeToExcel(adList, row);
             row++;
         }
@@ -40,7 +44,7 @@ void UyBor::ParseUyBor()
 }
 
 
-QMap<int, QString> UyBor::ParseUyBorPage(QByteArray arr)
+QMap<int, QString> UyBor::ParseUyBorPage(QByteArray arr, QStringList phone)
 {
     QRegExp spaces("\\s+");
     QMap<int, QString> data;
@@ -159,8 +163,58 @@ QMap<int, QString> UyBor::ParseUyBorPage(QByteArray arr)
 
     }
     data.insert(38, "uyBor");
+    int phoneColumn = 22;
+    for(int i = 0; i < phone.count(); i++)
+    {
+        data.insert(phoneColumn++, phone.at(i));
+    }
     return data;
 }
 
+QString UyBor::phoneId(QByteArray arr)
+{
+    QGumboDocument document = QGumboDocument::parse(arr);
+    QGumboNode root = document.rootNode(); //передаем тег <html> в root
+    QGumboNodes contentDiv = root.getElementById("content");
+    QGumboNodes nodesSection;
+    if(0 < contentDiv.size()) nodesSection = contentDiv.at(0).getElementsByTagName(HtmlTag::SECTION);
+    for(uint i = 0; i < nodesSection.size(); i++)
+    {
+        QGumboAttributes attrSection = nodesSection.at(i).allAttributes();
+        for(uint j = 0; j < attrSection.size(); j++)
+        {
+            QGumboNodes dateAndIDNode = nodesSection.at(i).children();
+            if(dateAndIDNode.size() == 0) continue;
+            if(!dateAndIDNode.at(0).isElement()) continue;
+            QGumboAttributes attr = dateAndIDNode.at(0).allAttributes();
+            if(attr.size() == 0) continue;
+            if(attr.at(0).value() == "listing__data")
+            {
+                QGumboNodes nodesTr = dateAndIDNode.at(0).getElementsByTagName(HtmlTag::TR);
+                for(uint m = 0; m < nodesTr.size(); m++)
+                {
+                    QGumboNodes nodesTd = nodesTr.at(m).children();
+                    if(nodesTd.at(0).innerText() == "Номер объявления (ID):")
+                    return nodesTd.at(1).innerText();
+                }
+            }
+        }
+    }
+    return "";
+}
 
-
+QString UyBor::phoneToken(QByteArray arr)
+{
+    QGumboDocument document = QGumboDocument::parse(arr);
+    QGumboNode root = document.rootNode();
+    QGumboNodes head = root.getElementsByTagName(HtmlTag::HEAD);
+    QGumboNodes metaTags;
+    if(0 < head.size()) metaTags = head.at(0).getElementsByTagName(HtmlTag::META);
+    for(uint i = 0; i < metaTags.size(); i++)
+    {
+        QGumboAttributes attr = metaTags.at(i).allAttributes();
+        if(attr.at(0).value() == "csrf-token")
+            return attr.at(1).value();
+    }
+    return "";
+}

@@ -20,6 +20,7 @@ public:
     QByteArray pageText(QUrl pageUrl);
     QByteArray olxPhoneText(QUrl pageUrl, QString id, QString token);
     QByteArray uyBorAdList(int page);
+    QByteArray uyBorPhoneText(QString id, QString token, QUrl referer);
 
 signals:
 

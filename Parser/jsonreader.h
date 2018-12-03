@@ -15,6 +15,7 @@ public:
     JsonReader();
     QStringList adList(QByteArray arr);
     int lastPage(QByteArray arr);
+    QStringList phoneList(QByteArray arr);
 };
 
 #endif // JSONREADER_H

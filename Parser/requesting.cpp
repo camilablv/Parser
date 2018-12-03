@@ -49,3 +49,19 @@ QByteArray Requesting::uyBorAdList(int page)
     reply->deleteLater();
     return reply->readAll();
 }
+
+QByteArray Requesting::uyBorPhoneText(QString id, QString token, QUrl referer)
+{
+    QUrl post("https://uybor.uz/listing/search/get-phones");
+    QUrlQuery postData;
+    postData.addQueryItem("id", id);
+    QNetworkRequest request(post);
+    request.setRawHeader(QString("Referer").toUtf8(), referer.toEncoded());
+    request.setRawHeader(QString("X-CSRF-TOKEN").toUtf8(), token.toUtf8());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    QNetworkReply *reply = manager->post(request, postData.toString(QUrl::FullyEncoded).toUtf8());
+    connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+    eventLoop.exec();
+    reply->deleteLater();
+    return reply->readAll();
+}
