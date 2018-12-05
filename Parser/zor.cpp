@@ -4,3 +4,8 @@ Zor::Zor(QObject *parent) : QObject(parent)
 {
 
 }
+Zor::~Zor()
+{
+
+}
+
