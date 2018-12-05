@@ -32,7 +32,6 @@ private:
     QMap<int, QString> ParseUyBorPage(QByteArray arr, QStringList phone);
     QString phoneId(QByteArray arr);
     QString phoneToken(QByteArray arr);
-    QNetworkAccessManager *manager;
     Requesting *request;
     Write *write;
     JsonReader *jsonReader;

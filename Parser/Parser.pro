@@ -19,7 +19,8 @@ SOURCES += \
     write.cpp \
     requesting.cpp \
     uybor.cpp \
-    jsonreader.cpp
+    jsonreader.cpp \
+    zor.cpp
 
 RESOURCES += qml.qrc
 
@@ -57,4 +58,5 @@ HEADERS += \
     write.h \
     requesting.h \
     uybor.h \
-    jsonreader.h
+    jsonreader.h \
+    zor.h
