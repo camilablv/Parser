@@ -19,7 +19,9 @@
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include <strings.h>  // For strncasecmp.
+//#ifndef _WIN32
+#include <strings.h> // For strncasecmp.
+//#endif
 
 #include "error.h"
 #include "gumbo.h"

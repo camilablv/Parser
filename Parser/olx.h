@@ -13,6 +13,8 @@
 #include <QMap>
 #include <requesting.h>
 #include <write.h>
+#include <QEventLoop>
+#include <QTimer>
 
 class Olx : public QObject
 {
@@ -40,6 +42,7 @@ private:
     Write *write;
     QList<QUrl> urls;
     bool end = false;
+    QEventLoop eventLoop;
 };
 
 #endif // OLX_H

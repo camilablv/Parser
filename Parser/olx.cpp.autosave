@@ -40,13 +40,6 @@ void Olx::ParseOlx(QByteArray html)
             if(attr.at(j).name() == "href")
             {
                 QUrl pageAddress(attr.at(j).value());
-
-//                QTimer timer;
-//                timer.setSingleShot(true);
-//                timer.start(10000);
-//                connect(&timer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
-//                eventLoop.exec();
-
                 QByteArray page = request->pageText(pageAddress);
                 if(page.isEmpty()) continue;
                 QString id = phoneId(page);
