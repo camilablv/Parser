@@ -7,6 +7,7 @@
 #include <QQmlContext>
 #include "olx.h"
 #include <uybor.h>
+#include <zor.h>
 
 class Controller : public QObject
 {
@@ -24,6 +25,7 @@ private:
     QObject *root;
     Olx olx;
     UyBor uyBor;
+    Zor zor;
 };
 
 #endif // CONTROLLER_H

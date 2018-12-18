@@ -7,6 +7,8 @@
 #include <qgumbonode.h>
 #include <qgumboattribute.h>
 #include <write.h>
+#include <requesting.h>
+#include <QRegExp>
 
 class Zor : public QObject
 {
@@ -21,7 +23,10 @@ signals:
 public slots:
 
 private:
-
+    void parseZor(QByteArray arr);
+    QMap<int, QString> parseZorPage(QByteArray arr);
+    Requesting *request;
+    Write *write;
 };
 
 #endif // ZOR_H
