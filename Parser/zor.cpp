@@ -34,6 +34,7 @@ void Zor::parseZor(QByteArray arr)
             QGumboNodes aTag = ad.getElementsByTagName(HtmlTag::A);
             if(aTag.size() == 0) continue;
             QGumboAttributes attrA = aTag.at(0).allAttributes();
+
         }
     }
 }

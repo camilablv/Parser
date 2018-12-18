@@ -15,7 +15,7 @@ Controller::~Controller()
 
 void Controller::start()
 {
-    //olx.Start();
+    olx.Start();
     //uyBor.Start();
-    zor.Start();
+    //zor.Start();
 }

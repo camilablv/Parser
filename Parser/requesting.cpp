@@ -20,12 +20,12 @@ QByteArray Requesting::pageText(QUrl pageUrl)
     return reply->readAll();
 }
 
-QByteArray Requesting::olxPhoneText(QUrl pageUrl, QString id, QString token)
+QByteArray Requesting::olxPhoneText(QUrl referer, QString id, QString token)
 {
     if(id == "" || token == "") return "";
     QUrl url("https://olx.uz/ajax/misc/contact/phone/"+id+"/?pt="+token);
     QNetworkRequest request(url);
-    request.setRawHeader(QString("Referer").toUtf8(), pageUrl.toEncoded());
+    request.setRawHeader(QString("Referer").toUtf8(), referer.toEncoded());
     QNetworkReply *reply = manager->get(request);
     connect(reply,SIGNAL(finished()), &eventLoop, SLOT(quit()));
     eventLoop.exec();

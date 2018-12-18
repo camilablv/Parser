@@ -20,70 +20,28 @@ void Olx::Start()
 
 void Olx::ParseOlx(QByteArray html)
 {
-    QGumboNodes contentTable;
-    QGumboNodes listH3;
-    QGumboNodes nodesSpan;
-    QGumboDocument document = QGumboDocument::parse(html);
-    QGumboNode root = document.rootNode();
-    QGumboNodes nodesSection = root.getElementsByTagName(HtmlTag::SECTION);
-    if(0 < nodesSection.size()) contentTable = nodesSection.at(0).getElementById("offers_table");
-    if(0 < contentTable.size()) listH3 = contentTable.at(0).getElementsByTagName(HtmlTag::H3);
-
-    for(uint i = 0; i < listH3.size(); i++)
+    QList<QUrl> addresses = listing.olxListing(html);
+    QListIterator<QUrl> list(addresses);
+    while(list.hasNext())
     {
-        QGumboAttributes attr;
-        QGumboNodes nodesA = listH3.at(i).getElementsByTagName(HtmlTag::A);
-
-        if(0 < nodesA.size()) attr = nodesA.at(0).allAttributes();
-        for(uint j = 0; j < attr.size(); j++)
-        {
-            if(attr.at(j).name() == "href")
-            {
-                QUrl pageAddress(attr.at(j).value());
-
-//                QTimer timer;
-//                timer.setSingleShot(true);
-//                timer.start(10000);
-//                connect(&timer, SIGNAL(timeout()), &eventLoop, SLOT(quit()));
-//                eventLoop.exec();
-
-                QByteArray page = request->pageText(pageAddress);
-                if(page.isEmpty()) continue;
-                QString id = phoneId(page);
-                QString token = Token(page);
-                QByteArray phone = request->olxPhoneText(pageAddress, id, token);
-                QList<QByteArray> data{page, phone};
-                QMap<int, QString> listData = ParseOlxPage(data);
-                write->writeToExcel(listData, row);
-                row++;
-            }
-        }
+        QUrl address = list.next();
+        QByteArray adHTML = request->pageText(address);
+        if(adHTML.isEmpty()) continue;
+        QString id = phoneId(adHTML);
+        QString token = Token(adHTML);
+        QByteArray phone = request->olxPhoneText(address, id, token);
+        QList<QByteArray> data{adHTML, phone};
+        QMap<int, QString> listData = ParseOlxPage(data);
+        write->writeToExcel(listData, row);
+        row++;
     }
-
-    if(0 < nodesSection.size()) nodesSpan = nodesSection.at(0).getElementsByTagName(HtmlTag::SPAN);
-    for(uint i =0; i < nodesSpan.size(); i++)
-    {
-        QGumboAttributes attrSpan = nodesSpan.at(i).allAttributes();
-        for(uint j = 0; j < attrSpan.size();j++)
-        {
-            if(attrSpan.at(j).value() != "fbold next abs large") continue;
-            QGumboNode span = nodesSpan.at(i);
-            QGumboNodes nodesA = span.getElementsByTagName(HtmlTag::A);
-            if(0 < nodesA.size())
-            {
-                QGumboAttributes attrA;
-                attrA = nodesA.at(0).allAttributes();
-                for(uint k = 0; k < attrA.size(); k++)
-                {
-                    if(attrA.at(k).name() != "href") continue;
-                    QUrl nextPageWithListUrl(attrA.at(k).value());
-                    QByteArray nextPageWithList = request->pageText(nextPageWithListUrl);
-                    ParseOlx(nextPageWithList);
-                }
-            }else break;
-        }
-    }
+    QUrl nextPage = pages.nextListingPage(html);
+    if(!nextPage.isEmpty())
+        ParseOlx(request->pageText(pages.nextListingPage(html)));
 }
+
+
+
 
 QMap<int, QString> Olx::ParseOlxPage(QList<QByteArray> list)
 {
@@ -133,55 +91,27 @@ QMap<int, QString> Olx::ParseOlxPage(QList<QByteArray> list)
                     for(uint l = 0; l < nodesTable.size(); l++)
                     {
                         QGumboNode tagTable = nodesTable.at(l);
-                        QGumboNodes nodesTh = tagTable.getElementsByTagName(HtmlTag::TH);
-                        if(0 == nodesTh.size()) continue;
-                        if(nodesTh.at(0).innerText() == "Объявление от")
+                        QGumboNodes nodesTr = tagTable.getElementsByTagName(HtmlTag::TR);
+                        for(uint r = 0; r < nodesTr.size(); r++)
                         {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::A);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(4, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Тип строения")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::A);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(16, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Количество комнат")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::STRONG);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(9, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Общая площадь")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::STRONG);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(12, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Этаж")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::STRONG);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(10, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Этажность дома")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::STRONG);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(11, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Планировка")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::A);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(15, nodesA.at(0).innerText().replace(spaces, " "));
-                        }
-                        else if(nodesTh.at(0).innerText() == "Ремонт")
-                        {
-                            QGumboNodes nodesA = tagTable.getElementsByTagName(HtmlTag::A);
-                            if(0 == nodesA.size()) continue;
-                            data.insert(17, nodesA.at(0).innerText().replace(spaces, " "));
+                            QGumboNodes trChildren = nodesTr.at(r).childNodes();
+                            if(trChildren.size() == 0) continue;
+                            if(trChildren.at(0).innerText() == "Объявление от")
+                                data.insert(4, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Тип строения")
+                                data.insert(16, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Количество комнат")
+                                data.insert(9, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Общая площадь")
+                                data.insert(12, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Этаж")
+                                data.insert(10, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Этажность дома")
+                                data.insert(11, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Планировка")
+                                data.insert(15, trChildren.at(1).innerText().replace(spaces, " "));
+                            if(trChildren.at(0).innerText() == "Ремонт")
+                                data.insert(17, trChildren.at(1).innerText().replace(spaces, " "));
                         }
                     }
                 }
