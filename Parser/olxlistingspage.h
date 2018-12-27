@@ -10,11 +10,14 @@
 class OlxListingsPage
 {
 public:
-    OlxListingsPage();
-    QList<QUrl> olxListing(const QByteArray &html) const;
+    OlxListingsPage(const QByteArray &html);
+    QList<QUrl> olxListing() const;
+    QUrl nextListingPageUrl() const;
+    QString Token() const;
+    QString phoneId() const;
 
-
-
+private:
+    const QByteArray arr;
 };
 
 #endif // OLXLISTINGSPAGE_H

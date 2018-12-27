@@ -22,7 +22,7 @@ SOURCES += \
     jsonreader.cpp \
     zor.cpp \
     olxlistingspage.cpp \
-    olxlistingspages.cpp
+    olxlistingpage.cpp
 
 RESOURCES += qml.qrc
 
@@ -63,4 +63,4 @@ HEADERS += \
     jsonreader.h \
     zor.h \
     olxlistingspage.h \
-    olxlistingspages.h
+    olxlistingpage.h
