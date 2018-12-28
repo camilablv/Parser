@@ -1,8 +1,8 @@
-#include "parseolxpage.h"
+#include "olxlistingpage.h"
 
-ParseOlxPage::ParseOlxPage(const QByteArray html, const QUrl address) : arr(html), url(address){}
+OlxListingPage::OlxListingPage(const QByteArray html, const QUrl address) : arr(html), url(address){}
 
-QMap<int, QString> ParseOlxPage::parseListingData() const
+QMap<int, QString> OlxListingPage::parseListingData() const
 {
     Requesting request;
     QVariant phone = request.olxPhoneText(url, phoneId(), Token());
@@ -107,7 +107,7 @@ QMap<int, QString> ParseOlxPage::parseListingData() const
     return data;
 }
 
-QString ParseOlxPage::Token() const //токен объявления
+QString OlxListingPage::Token() const //токен объявления
 {
     QGumboNode section;
     QVariant phoneToken;
@@ -124,7 +124,7 @@ QString ParseOlxPage::Token() const //токен объявления
     return str;
 }
 
-QString ParseOlxPage::phoneId() const //id объявления
+QString OlxListingPage::phoneId() const //id объявления
 {
     QGumboNode section;
     QGumboNodes tagLi;

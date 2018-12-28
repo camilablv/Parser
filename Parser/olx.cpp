@@ -21,14 +21,14 @@ void Olx::Start()
 void Olx::ParseOlx(QByteArray html)
 {
     OlxListingsPage listingsPage(html);
-    QList<QUrl> addresses = listingsPage.olxListing();
+    QList<QUrl> addresses = listingsPage.listingAddresses();
     QListIterator<QUrl> list(addresses);
     while(list.hasNext())
     {
         QUrl address = list.next();
         QByteArray adHTML = request->pageText(address);
         if(adHTML.isEmpty()) continue;
-        ParseOlxPage page(adHTML, address);
+        OlxListingPage page(adHTML, address);
         QMap<int, QString> listData = page.parseListingData();
         write->writeToExcel(listData, row);
         row++;

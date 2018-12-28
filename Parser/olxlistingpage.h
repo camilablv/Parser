@@ -1,5 +1,5 @@
-#ifndef PARSEOLXPAGE_H
-#define PARSEOLXPAGE_H
+#ifndef OLXLISTINGPAGE_H
+#define OLXLISTINGPAGE_H
 
 #include <QUrl>
 #include <QByteArray>
@@ -11,10 +11,10 @@
 #include <QVariant>
 #include "requesting.h"
 
-class ParseOlxPage
+class OlxListingPage
 {
 public:
-    ParseOlxPage(const QByteArray html, const QUrl address);
+    OlxListingPage(const QByteArray html, const QUrl address);
     QMap<int, QString> parseListingData() const;
 
 private:
@@ -25,4 +25,4 @@ private:
     QMap<int, QString> descriptionElements{{4, "Объявление от"}, {16, "Тип строения"}, {9, "Количество комнат"}, {12, "Общая площадь"}, {10, "Этаж"}, {11, "Этажность дома"}, {15, "Планировка"}, {17, "Ремонт"}};
 };
 
-#endif // PARSEOLXPAGE_H
+#endif // OLXLISTINGPAGE_H

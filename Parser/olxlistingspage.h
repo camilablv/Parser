@@ -11,7 +11,7 @@ class OlxListingsPage
 {
 public:
     OlxListingsPage(const QByteArray &html);
-    QList<QUrl> olxListing() const;
+    QList<QUrl> listingAddresses() const;
     QUrl nextListingPageUrl() const;
     QString Token() const;
     QString phoneId() const;

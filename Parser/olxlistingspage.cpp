@@ -2,7 +2,7 @@
 
 OlxListingsPage::OlxListingsPage(const QByteArray &html) : arr(html){}
 
-QList<QUrl> OlxListingsPage::olxListing() const
+QList<QUrl> OlxListingsPage::listingAddresses() const
 {
     QList<QUrl> listing;
     QGumboNodes contentTable;
