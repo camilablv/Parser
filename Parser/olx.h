@@ -2,9 +2,6 @@
 #define OLX_H
 
 #include <QObject>
-#include <QtNetwork/QNetworkAccessManager>
-#include <QtNetwork/QNetworkRequest>
-#include <QtNetwork/QNetworkReply>
 #include <QUrl>
 #include <qgumbodocument.h>
 #include <qgumbonode.h>
@@ -15,6 +12,10 @@
 #include <write.h>
 #include <QEventLoop>
 #include <QTimer>
+#include "olxlistingspage.h"
+#include "olxlistingpage.h"
+#include <QList>
+#include <QListIterator>
 
 class Olx : public QObject
 {
@@ -24,7 +25,6 @@ public:
     ~Olx();
     void ParseOlx(QByteArray html);
     void Start();
-    QMap<int, QString> ParseOlxPage(QList<QByteArray> list);
 
     //ПЕРЕМЕННЫЕ
     int row = 1;
@@ -34,15 +34,9 @@ signals:
 public slots:
 
 private:
-    QString phoneId(QByteArray array);
-    QString Token(QByteArray array);
-
     //ПЕРЕМЕННЫЕ
     Requesting *request;
     Write *write;
-    QList<QUrl> urls;
-    bool end = false;
-    QEventLoop eventLoop;
 };
 
 #endif // OLX_H
