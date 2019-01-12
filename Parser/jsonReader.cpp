@@ -1,4 +1,4 @@
-#include "jsonreader.h"
+#include "jsonReader.h"
 
 JsonReader::JsonReader()
 {

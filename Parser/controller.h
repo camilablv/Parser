@@ -6,7 +6,7 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 #include "olx.h"
-#include <uybor.h>
+#include <uyBor.h>
 #include <zor.h>
 
 class Controller : public QObject

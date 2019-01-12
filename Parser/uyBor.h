@@ -4,7 +4,7 @@
 #include <QObject>
 #include <write.h>
 #include <requesting.h>
-#include <jsonreader.h>
+#include <jsonReader.h>
 #include <QUrl>
 #include <qgumbodocument.h>
 #include <qgumbonode.h>

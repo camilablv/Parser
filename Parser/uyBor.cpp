@@ -1,4 +1,4 @@
-#include "uybor.h"
+#include "uyBor.h"
 
 
 UyBor::UyBor(QObject *parent) : QObject(parent)
