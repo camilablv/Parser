@@ -23,14 +23,16 @@ void Olx::parseListing(QByteArray html)
 {
     OlxListingsPage listingsPage(html);
     QList<QUrl> addresses = listingsPage.listingAddresses();
-    Iterable iterator(addresses);
     auto lambda = [this](const QUrl& address)->void{QByteArray adHTML = request->pageText(address);
         if(adHTML.isEmpty()) return;
         OlxListingPage page(adHTML, address);
         QMap<int, QString> listData = page.parseListingData();
         write->writeToExcel(listData, row);
         row++;};
+    Iterable<lambda, QUrl&> iterator(addresses);
     iterator.forEach(lambda);
+
+
 
     QUrl nextPage = listingsPage.nextListingPageUrl();
     if(!nextPage.isEmpty())

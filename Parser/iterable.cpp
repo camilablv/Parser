@@ -1,8 +1,10 @@
 #include "iterable.h"
 
-Iterable::Iterable(const QList<QUrl> &list) : urls(list){}
+template <typename T, typename L>
+Iterable<T, L>::Iterable(const L &list) : urls(list){}
 
-void Iterable::forEach(const std::function<void(const QUrl &)> &f) const
+template <typename T, typename L>
+void Iterable<T, L>::forEach(T& f) const
 {
     QListIterator<QUrl> iter(urls);
     while(iter.hasNext())

@@ -5,11 +5,12 @@
 #include <QListIterator>
 #include <functional>
 
+template <typename T, typename L>
 class Iterable
 {
 public:
-    Iterable(const QList<QUrl>& list);
-    void forEach(const std::function<void(const QUrl &)> &f) const;
+    Iterable(const L &list);
+    void forEach(T &f) const;
 private:
 
     const QList<QUrl> urls;
