@@ -29,7 +29,7 @@ void Olx::parseListing(QByteArray html)
         QMap<int, QString> listData = page.parseListingData();
         write->writeToExcel(listData, row);
         row++;};
-    Iterable<lambda, QUrl&> iterator(addresses);
+    Iterable<QList<QUrl>&> iterator(addresses);
     iterator.forEach(lambda);
 
 

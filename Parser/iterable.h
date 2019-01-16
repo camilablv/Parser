@@ -5,15 +5,30 @@
 #include <QListIterator>
 #include <functional>
 
-template <typename T, typename L>
+template <typename T>
 class Iterable
 {
 public:
-    Iterable(const L &list);
-    void forEach(T &f) const;
+    Iterable(const T &list);
+    template<typename L>
+    void forEach(L &f) const;
 private:
 
-    const QList<QUrl> urls;
+    const T urls;
 };
+
+template <typename T>
+Iterable<T>::Iterable(const T &list) : urls(list){}
+
+template <typename T>
+template <typename L>
+void Iterable<T>::forEach(L& f) const
+{
+    QListIterator<QUrl> iter(urls);
+    while(iter.hasNext())
+    {
+        f(iter.next());
+    }
+}
 
 #endif // ITERABLE_H

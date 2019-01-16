@@ -19,7 +19,6 @@ SOURCES += \
     write.cpp \
     requesting.cpp \
     zor.cpp \
-    iterable.cpp \
     jsonReader.cpp \
     olxListingPage.cpp \
     olxListingsPage.cpp \
