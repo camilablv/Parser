@@ -18,11 +18,12 @@ SOURCES += \
     olx.cpp \
     write.cpp \
     requesting.cpp \
-    uybor.cpp \
-    jsonreader.cpp \
     zor.cpp \
-    olxlistingspage.cpp \
-    olxlistingpage.cpp
+    iterable.cpp \
+    jsonReader.cpp \
+    olxListingPage.cpp \
+    olxListingsPage.cpp \
+    uyBor.cpp
 
 RESOURCES += qml.qrc
 
@@ -59,8 +60,9 @@ HEADERS += \
     olx.h \
     write.h \
     requesting.h \
-    uybor.h \
-    jsonreader.h \
     zor.h \
-    olxlistingspage.h \
-    olxlistingpage.h
+    iterable.h \
+    jsonReader.h \
+    olxListingPage.h \
+    olxListingsPage.h \
+    uyBor.h

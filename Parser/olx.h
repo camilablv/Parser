@@ -12,10 +12,11 @@
 #include <write.h>
 #include <QEventLoop>
 #include <QTimer>
-#include "olxlistingspage.h"
-#include "olxlistingpage.h"
+#include "olxListingsPage.h"
+#include "olxListingPage.h"
 #include <QList>
 #include <QListIterator>
+#include "iterable.h"
 
 class Olx : public QObject
 {
@@ -23,7 +24,7 @@ class Olx : public QObject
 public:
     explicit Olx(QObject *parent = nullptr);
     ~Olx();
-    void ParseOlx(QByteArray html);
+    void parseListing(QByteArray html);
     void Start();
 
     //ПЕРЕМЕННЫЕ
@@ -34,6 +35,7 @@ signals:
 public slots:
 
 private:
+    void parsePage(const QUrl& url);
     //ПЕРЕМЕННЫЕ
     Requesting *request;
     Write *write;

@@ -1,4 +1,4 @@
-#include "olxlistingspage.h"
+#include "olxListingsPage.h"
 
 OlxListingsPage::OlxListingsPage(const QByteArray &html) : arr(html){}
 

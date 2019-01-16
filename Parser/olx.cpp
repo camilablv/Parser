@@ -15,27 +15,27 @@ Olx::~Olx()
 void Olx::Start()
 {
     QUrl startPageAdsForSaleApartments("https://olx.uz/nedvizhimost/kvartiry/prodazha/tashkent/");
-    ParseOlx(request->pageText(startPageAdsForSaleApartments));
+    parseListing(request->pageText(startPageAdsForSaleApartments));
 }
 
-void Olx::ParseOlx(QByteArray html)
+
+void Olx::parseListing(QByteArray html)
 {
     OlxListingsPage listingsPage(html);
     QList<QUrl> addresses = listingsPage.listingAddresses();
-    QListIterator<QUrl> list(addresses);
-    while(list.hasNext())
-    {
-        QUrl address = list.next();
-        QByteArray adHTML = request->pageText(address);
-        if(adHTML.isEmpty()) continue;
+    auto lambda = [this](const QUrl& address)->void{QByteArray adHTML = request->pageText(address);
+        if(adHTML.isEmpty()) return;
         OlxListingPage page(adHTML, address);
         QMap<int, QString> listData = page.parseListingData();
         write->writeToExcel(listData, row);
-        row++;
-    }
+        row++;};
+    Iterable<lambda, QUrl&> iterator(addresses);
+    iterator.forEach(lambda);
+
+
+
     QUrl nextPage = listingsPage.nextListingPageUrl();
     if(!nextPage.isEmpty())
-        ParseOlx(request->pageText(nextPage));
+        parseListing(request->pageText(nextPage));
 }
-
 
