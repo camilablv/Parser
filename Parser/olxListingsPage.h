@@ -6,6 +6,7 @@
 #include <qgumbodocument.h>
 #include <qgumbonode.h>
 #include <qgumboattribute.h>
+#include <QRegExp>
 
 class OlxListingsPage
 {

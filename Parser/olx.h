@@ -17,7 +17,7 @@
 #include <QList>
 #include <QListIterator>
 #include "iterable.h"
-
+template class Iterable<QList<QUrl>>;
 class Olx : public QObject
 {
     Q_OBJECT

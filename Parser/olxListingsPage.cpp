@@ -4,6 +4,7 @@ OlxListingsPage::OlxListingsPage(const QByteArray &html) : arr(html){}
 
 QList<QUrl> OlxListingsPage::listingAddresses() const
 {
+    QRegExp fragment("#(.*)");
     QList<QUrl> listing;
     QGumboNodes contentTable;
     QGumboNodes listH3;
@@ -23,7 +24,7 @@ QList<QUrl> OlxListingsPage::listingAddresses() const
         {
             if(attr.at(j).name() != "href") continue;
             QUrl pageAddress(attr.at(j).value());
-            listing.append(pageAddress);
+            listing.append(pageAddress.toString().replace(fragment, ""));
         }
     }
     return listing;
