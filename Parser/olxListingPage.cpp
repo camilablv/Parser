@@ -5,7 +5,9 @@ OlxListingPage::OlxListingPage(const QByteArray html, const QUrl address) : arr(
 QMap<int, QString> OlxListingPage::parseListingData() const
 {
     Requesting request;
-    QVariant phone = request.olxPhoneText(url, phoneId(), Token());
+    QString tokenT = Token();
+    QString idT = phoneId();
+    QVariant phone = request.olxPhoneText(url, idT, tokenT);
     QMap<int, QString> data;
     data.insert(22, phone.toString());
     QRegExp spaces("\\s+");

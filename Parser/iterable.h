@@ -1,10 +1,6 @@
 #ifndef ITERABLE_H
 #define ITERABLE_H
 
-#include <QList>
-#include <QListIterator>
-#include <functional>
-
 template <typename T>
 class Iterable
 {
@@ -24,11 +20,8 @@ template <typename T>
 template <typename L>
 void Iterable<T>::forEach(L& f) const
 {
-    QListIterator<QUrl> iter(urls);
-    while(iter.hasNext())
-    {
-        f(iter.next());
-    }
+    for(auto x : urls)
+        f(x);
 }
 
 #endif // ITERABLE_H
