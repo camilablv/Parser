@@ -45,7 +45,8 @@ HEADERS += \
     gumbo-parser/src/utf8.h \
     gumbo-parser/src/util.h \
     gumbo-parser/src/vector.h \
-    HtmlTag.h
+    HtmlTag.h \
+    gumbo-parser/visualc/include/strings.h
 
 contains(QMAKE_CC, gcc): {
     QMAKE_CFLAGS_WARN_ON += -Wno-unused-parameter -Wno-sign-compare -Wno-old-style-declaration

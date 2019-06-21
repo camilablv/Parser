@@ -36,7 +36,7 @@ void UyBor::ParseUyBor()
             QString token = phoneToken(pageText);
             QStringList phone = jsonReader->phoneList(request->uyBorPhoneText(id, token, list.at(j)));
             QMap<int, QString> adList = ParseUyBorPage(pageText, phone);
-            write->writeToExcel(adList, row);
+            write->writeToExcel(adList);
             row++;
         }
     }

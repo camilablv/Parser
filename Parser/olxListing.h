@@ -1,5 +1,5 @@
-#ifndef OLXLISTINGPAGE_H
-#define OLXLISTINGPAGE_H
+#ifndef OLXLISTING_H
+#define OLXLISTING_H
 
 #include <QUrl>
 #include <QByteArray>
@@ -10,19 +10,19 @@
 #include <QMapIterator>
 #include <QVariant>
 #include "requesting.h"
+#include "listing.h"
 
-class OlxListingPage
+class OlxListing : public Listing
 {
 public:
-    OlxListingPage(const QByteArray html, const QUrl address);
-    QMap<int, QString> parseListingData() const;
-
+    OlxListing(const QUrl address);
+    QMap<int, QString> parsePage() const override;
+    ~OlxListing() override;
 private:
-    const QByteArray arr;
     const QUrl url;
-    QString Token() const;
-    QString phoneId() const;
+    QString Token(QByteArray arr) const;
+    QString phoneId(QByteArray arr) const;
     QMap<int, QString> descriptionElements{{4, "Объявление от"}, {16, "Тип строения"}, {9, "Количество комнат"}, {12, "Общая площадь"}, {10, "Этаж"}, {11, "Этажность дома"}, {15, "Планировка"}, {17, "Ремонт"}};
 };
 
-#endif // OLXLISTINGPAGE_H
+#endif // OLXLISTING_H

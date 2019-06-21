@@ -11,7 +11,7 @@ class Write : public QObject
     Q_OBJECT
 public:
     explicit Write(QObject *parent = nullptr);
-    void writeToExcel(QMap<int, QString> list, int row);
+    void writeToExcel(QMap<int, QString> list);
 
 signals:
 

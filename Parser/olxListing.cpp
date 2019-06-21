@@ -1,23 +1,27 @@
-#include "olxListingPage.h"
+#include "olxListing.h"
 
-OlxListingPage::OlxListingPage(const QByteArray html, const QUrl address) : arr(html), url(address){}
+OlxListing::OlxListing(const QUrl address) : Listing(address){};
 
-QMap<int, QString> OlxListingPage::parseListingData() const
+QMap<int, QString> OlxListing::parsePage() const
 {
     Requesting request;
-    QString tokenT = Token();
-    QString idT = phoneId();
-    QVariant phone = request.olxPhoneText(url, idT, tokenT);
     QMap<int, QString> data;
+    QByteArray arr = request.pageText(address);
+    if(arr.isEmpty()) return data;
+    QString tokenT = Token(arr);
+    QString idT = phoneId(arr);
+    QVariant phone = request.olxPhoneText(url, idT, tokenT);
+
     data.insert(22, phone.toString());
     QRegExp spaces("\\s+");
-    QGumboNode section;
+
     QGumboNodes contentDivChildren;
     QGumboNodes contactDivChildren;
     QGumboDocument document = QGumboDocument::parse(arr);
     QGumboNode root = document.rootNode(); //передаем тег <html> в root
     QGumboNodes body = root.getElementsByTagName(HtmlTag::SECTION);
-    if(0 < body.size()) section =  body.at(0);
+    if(body.size() == 0) return data;
+    QGumboNode section = body.at(0);
     QGumboNodes contentDiv = section.getElementById("offerdescription");
     QGumboNodes ContactDiv = section.getElementById("offeractions");
     if(0 < contentDiv.size()) contentDivChildren = contentDiv.at(0).childNodes();
@@ -109,7 +113,7 @@ QMap<int, QString> OlxListingPage::parseListingData() const
     return data;
 }
 
-QString OlxListingPage::Token() const //токен объявления
+QString OlxListing::Token(QByteArray arr) const //токен объявления
 {
     QGumboNode section;
     QVariant phoneToken;
@@ -126,7 +130,7 @@ QString OlxListingPage::Token() const //токен объявления
     return str;
 }
 
-QString OlxListingPage::phoneId() const //id объявления
+QString OlxListing::phoneId(QByteArray arr) const //id объявления
 {
     QGumboNode section;
     QGumboNodes tagLi;
@@ -159,3 +163,5 @@ QString OlxListingPage::phoneId() const //id объявления
     }
     return "";
 }
+
+OlxListing::~OlxListing(){};

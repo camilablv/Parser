@@ -1,7 +1,7 @@
 #ifndef OLX_H
 #define OLX_H
 
-#include <QObject>
+#include "parser.h"
 #include <QUrl>
 #include <qgumbodocument.h>
 #include <qgumbonode.h>
@@ -13,22 +13,28 @@
 #include <QEventLoop>
 #include <QTimer>
 #include "olxListingsPage.h"
-#include "olxListingPage.h"
+#include "olxListing.h"
 #include <QList>
 #include <QListIterator>
 #include "iterable.h"
-template class Iterable<QList<QUrl>>;
-class Olx : public QObject
+#include "olxListing.h"
+#include <memory>
+
+template class Iterable<QList<Listing*>>;
+
+class Olx : public Parser
 {
-    Q_OBJECT
 public:
-    explicit Olx(QObject *parent = nullptr);
+    explicit Olx();
     ~Olx();
+    void parse();
     void parseListing(QByteArray html);
+    QList<Listing*> readListinsList(const QByteArray arr);
+    QList<QMap<int, QString>> parseListings(QList<Listing*> listings);
+    void write(QList<QMap<int, QString>> listData);
     void Start();
 
     //ПЕРЕМЕННЫЕ
-    int row = 1;
 
 signals:
 
@@ -38,7 +44,7 @@ private:
     void parsePage(const QUrl& url);
     //ПЕРЕМЕННЫЕ
     Requesting *request;
-    Write *write;
+    Write *writing;
 };
 
 #endif // OLX_H

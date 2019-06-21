@@ -13,14 +13,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    listing.cpp \
         main.cpp \
     controller.cpp \
     olx.cpp \
+    olxListing.cpp \
+    parser.cpp \
     write.cpp \
     requesting.cpp \
     zor.cpp \
     jsonReader.cpp \
-    olxListingPage.cpp \
     olxListingsPage.cpp \
     uyBor.cpp
 
@@ -37,13 +39,14 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-include(C:\QtProjectWin\Parser\libs\QtXlsxWriter-master\src\xlsx\qtxlsx.pri)
+include($$PWD/../libs/QtXlsxWriter-master/src/xlsx/qtxlsx.pri)
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libs/QGumboParser/QGumboParser/release/ -lQGumboParser
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libs/QGumboParser/QGumboParser/debug/ -lQGumboParser
 else:unix: LIBS += -L$$OUT_PWD/../libs/QGumboParser/QGumboParser/ -lQGumboParser
 
-INCLUDEPATH += $$PWD/../libs/QGumboParser/QGumboParser
+INCLUDEPATH += $$PWD/../libs/QGumboParser/QGumboParser \
+    C:/Program Files (x86)/OpenSSL-Win32
 DEPENDPATH += $$PWD/../libs/QGumboParser/QGumboParser
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../libs/QGumboParser/QGumboParser/release/libQGumboParser.a
@@ -56,12 +59,14 @@ RC_FILE = appIcon.rc
 
 HEADERS += \
     controller.h \
+    listing.h \
     olx.h \
+    olxListing.h \
+    parser.h \
     write.h \
     requesting.h \
     zor.h \
     iterable.h \
     jsonReader.h \
-    olxListingPage.h \
     olxListingsPage.h \
     uyBor.h
