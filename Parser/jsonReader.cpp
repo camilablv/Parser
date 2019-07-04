@@ -5,9 +5,9 @@ JsonReader::JsonReader()
 
 }
 
-QStringList JsonReader::adList(QByteArray arr)
+QList<QUrl> JsonReader::adList(QByteArray arr)
 {
-    QStringList list;
+    QList<QUrl> list;
     QJsonDocument doc = QJsonDocument::fromJson(arr);
     QJsonObject root = doc.object();
     QJsonValue valueData = root.value("data");
@@ -38,9 +38,9 @@ int JsonReader::lastPage(QByteArray arr)
     return pagination.value("lastPage").toInt();
 }
 
-QStringList JsonReader::phoneList(QByteArray arr)
+QList<QString> JsonReader::phoneList(QByteArray arr)
 {
-    QStringList list;
+    QList<QString> list;
     QJsonDocument doc = QJsonDocument::fromJson(arr);
     QJsonObject root = doc.object();
     QJsonValue phones = root.value("phones");

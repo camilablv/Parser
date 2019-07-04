@@ -17,14 +17,17 @@ SOURCES += \
         main.cpp \
     controller.cpp \
     olx.cpp \
+    olxHtmlParsing.cpp \
     olxListing.cpp \
     parser.cpp \
+    uyBorHtmlParsing.cpp \
+    uyBorListing.cpp \
     write.cpp \
     requesting.cpp \
     zor.cpp \
     jsonReader.cpp \
-    olxListingsPage.cpp \
-    uyBor.cpp
+    uyBor.cpp \
+    zorListing.cpp
 
 RESOURCES += qml.qrc
 
@@ -61,12 +64,15 @@ HEADERS += \
     controller.h \
     listing.h \
     olx.h \
+    olxHtmlParsing.h \
     olxListing.h \
     parser.h \
+    uyBorHtmlParsing.h \
+    uyBorListing.h \
     write.h \
     requesting.h \
     zor.h \
     iterable.h \
     jsonReader.h \
-    olxListingsPage.h \
-    uyBor.h
+    uyBor.h \
+    zorListing.h

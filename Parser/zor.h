@@ -1,32 +1,31 @@
 #ifndef ZOR_H
 #define ZOR_H
 
-#include <QObject>
 #include <QUrl>
-#include <qgumbodocument.h>
-#include <qgumbonode.h>
-#include <qgumboattribute.h>
 #include <write.h>
 #include <requesting.h>
 #include <QRegExp>
+#include "parser.h"
+#include "zorListing.h"
+#include <qgumbodocument.h>
+#include <qgumbonode.h>
+#include <qgumboattribute.h>
 
-class Zor : public QObject
+class Zor : public Parser
 {
-    Q_OBJECT
 public:
-    explicit Zor(QObject *parent = nullptr);
+    explicit Zor();
     ~Zor();
-    void Start();
-
-signals:
-
-public slots:
+    void parse();
+    QList<Listing*> readListinsList(const QByteArray arr);
+    QList<QMap<int, QString>> parseListings(QList<Listing*> listings);
+    void write(QList<QMap<int, QString>> listData);
 
 private:
-    void parseZor(QByteArray arr);
-    QMap<int, QString> parseZorPage(QByteArray arr);
+    QList<QUrl> listinsList(const QByteArray arr);
     Requesting *request;
-    Write *write;
+    Write *writing;
+
 };
 
 #endif // ZOR_H

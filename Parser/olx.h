@@ -3,22 +3,18 @@
 
 #include "parser.h"
 #include <QUrl>
-#include <qgumbodocument.h>
-#include <qgumbonode.h>
-#include <qgumboattribute.h>
 #include <QRegExp>
 #include <QMap>
 #include <requesting.h>
 #include <write.h>
 #include <QEventLoop>
 #include <QTimer>
-#include "olxListingsPage.h"
 #include "olxListing.h"
 #include <QList>
 #include <QListIterator>
 #include "iterable.h"
 #include "olxListing.h"
-#include <memory>
+#include "olxHtmlParsing.h"
 
 template class Iterable<QList<Listing*>>;
 
@@ -45,6 +41,7 @@ private:
     //ПЕРЕМЕННЫЕ
     Requesting *request;
     Write *writing;
+    OlxHtmlParsing* parsing;
 };
 
 #endif // OLX_H

@@ -8,7 +8,7 @@
 class Listing
 {
 public:
-    explicit Listing(QUrl url);
+    explicit Listing(const QUrl url);
     virtual QMap<int, QString> parsePage() const = 0;
     virtual ~Listing();
 protected:

@@ -1,6 +1,6 @@
 #include "listing.h"
 
-Listing::Listing(QUrl url) : address(url) {}
+Listing::Listing(const QUrl url) : address(url) {}
 
 //QMap<int, QString> Listing::parsePage()
 //{

@@ -4,14 +4,15 @@ Olx::Olx()
 {
     request = new Requesting;
     writing = new Write;
+    parsing = new OlxHtmlParsing;
 }
 
 Olx::~Olx()
 {
     delete request;
     delete writing;
+    delete parsing;
 }
-
 
 void Olx::parse()
 {
@@ -22,29 +23,10 @@ void Olx::parse()
 
 QList<Listing*> Olx::readListinsList(const QByteArray arr)
 {
-    QRegExp fragment("#(.*)");
+    QList<QUrl> addresses = parsing->listinsList(arr);
     QList<Listing*> listings;
-    QGumboNodes contentTable;
-    QGumboNodes listH3;
-    QGumboDocument document = QGumboDocument::parse(arr);
-    QGumboNode root = document.rootNode();
-    QGumboNodes nodesSection = root.getElementsByTagName(HtmlTag::SECTION);
-    if(0 < nodesSection.size()) contentTable = nodesSection.at(0).getElementById("offers_table");
-    if(0 < contentTable.size()) listH3 = contentTable.at(0).getElementsByTagName(HtmlTag::H3);
-
-    for(uint i = 0; i < listH3.size(); i++)
-    {
-        QGumboAttributes attr;
-        QGumboNodes nodesA = listH3.at(i).getElementsByTagName(HtmlTag::A);
-
-        if(0 < nodesA.size()) attr = nodesA.at(0).allAttributes();
-        for(uint j = 0; j < attr.size(); j++)
-        {
-            if(attr.at(j).name() != "href") continue;
-            QUrl pageAddress(attr.at(j).value());
-            listings.append(new OlxListing(pageAddress.toString().replace(fragment, "")));
-        }
-    }
+    for(auto x : addresses)
+        listings.append(new OlxListing(x));
     return listings;
 }
 

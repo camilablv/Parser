@@ -8,14 +8,15 @@
 #include <QJsonObject>
 #include <QDebug>
 #include <QByteArray>
+#include <QList>
 
 class JsonReader
 {
 public:
     JsonReader();
-    QStringList adList(QByteArray arr);
+    QList<QUrl> adList(QByteArray arr);
     int lastPage(QByteArray arr);
-    QStringList phoneList(QByteArray arr);
+    QList<QString> phoneList(QByteArray arr);
 };
 
 #endif // JSONREADER_H
