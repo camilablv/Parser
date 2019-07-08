@@ -15,7 +15,7 @@ Controller::~Controller()
 
 void Controller::start()
 {
-    //olx.parse();
+    olx.parse();
     //uyBor.parse();
-    zor.parse();
+    //zor.parse();
 }

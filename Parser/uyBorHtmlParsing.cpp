@@ -10,10 +10,10 @@ UyBorHtmlParsing::~UyBorHtmlParsing()
     delete jsonReader;
 }
 
-QList<QUrl> UyBorHtmlParsing::listinsList(const QByteArray arr)
-{
-    return jsonReader->adList(arr);
-}
+//QList<QUrl> UyBorHtmlParsing::listinsList(const QByteArray arr)
+//{
+//    return jsonReader->adList(arr);
+//}
 
 QMap<int, QString> UyBorHtmlParsing::listingData(QByteArray arr, QList<QString> phone)
 {

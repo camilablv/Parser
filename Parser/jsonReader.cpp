@@ -20,7 +20,6 @@ QList<QUrl> JsonReader::adList(QByteArray arr)
         {
             if(listings.at(i).isUndefined()) continue;
             QJsonObject ad = listings.at(i).toObject();
-
             list.append(ad.value("url").toString());
         }
     }

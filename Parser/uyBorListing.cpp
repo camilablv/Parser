@@ -22,4 +22,12 @@ QMap<int, QString> uyBorListing::parsePage() const
     return data;
 }
 
+QMap<int, QString> uyBorListing::listingData(QByteArray arr) const
+{
+    QGumboDocument document = QGumboDocument::parse(arr);
+    QGumboNode root = document.rootNode();
+}
+
+
+
 

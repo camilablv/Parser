@@ -7,7 +7,6 @@
 #include <QMap>
 #include <requesting.h>
 #include <write.h>
-#include <QEventLoop>
 #include <QTimer>
 #include "olxListing.h"
 #include <QList>
@@ -28,20 +27,12 @@ public:
     QList<Listing*> readListinsList(const QByteArray arr);
     QList<QMap<int, QString>> parseListings(QList<Listing*> listings);
     void write(QList<QMap<int, QString>> listData);
-    void Start();
-
-    //ПЕРЕМЕННЫЕ
-
-signals:
-
-public slots:
 
 private:
+    QList<QUrl> listinsList(const QByteArray arr);
     void parsePage(const QUrl& url);
-    //ПЕРЕМЕННЫЕ
     Requesting *request;
     Write *writing;
-    OlxHtmlParsing* parsing;
 };
 
 #endif // OLX_H

@@ -4,14 +4,12 @@ Olx::Olx()
 {
     request = new Requesting;
     writing = new Write;
-    parsing = new OlxHtmlParsing;
 }
 
 Olx::~Olx()
 {
     delete request;
     delete writing;
-    delete parsing;
 }
 
 void Olx::parse()
@@ -23,7 +21,7 @@ void Olx::parse()
 
 QList<Listing*> Olx::readListinsList(const QByteArray arr)
 {
-    QList<QUrl> addresses = parsing->listinsList(arr);
+    QList<QUrl> addresses = listinsList(arr);
     QList<Listing*> listings;
     for(auto x : addresses)
         listings.append(new OlxListing(x));
@@ -46,4 +44,15 @@ void Olx::write(QList<QMap<int, QString>> listData)
 {
     for(auto x: listData)
         writing->writeToExcel(x);
+}
+
+QList<QUrl> Olx::listinsList(const QByteArray arr)
+{
+    QList<QUrl> listings;
+    QGumboDocument document = QGumboDocument::parse(arr);
+    QGumboNode root = document.rootNode();
+    QGumboNodes aNodes = root.getElementsByClassName("detailsLink");
+    for(auto a : aNodes)
+        listings.append(a.getAttribute("href"));
+    return listings;
 }

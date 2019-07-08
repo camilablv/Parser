@@ -3,7 +3,9 @@
 
 #include <QUrl>
 #include <QMap>
-#include <QString>
+#include <qgumbodocument.h>
+#include <qgumbonode.h>
+#include <qgumboattribute.h>
 
 class Listing
 {
@@ -12,6 +14,10 @@ public:
     virtual QMap<int, QString> parsePage() const = 0;
     virtual ~Listing();
 protected:
+    QGumboNode getElementByClassName(const QGumboNode &node, QString&& className) const;
+    QGumboNode getElementById(const QGumboNode &node, QString&& id) const;
+    QGumboNode getElementByTagName(const QGumboNode& node, const HtmlTag tag) const;
+    void addPair(QMap<int, QString> &pairs, const QGumboNode &node, int key) const;
     QUrl address;
 };
 

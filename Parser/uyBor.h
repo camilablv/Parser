@@ -22,22 +22,15 @@ public:
     QList<Listing*> readListinsList(const QByteArray arr);
     QList<QMap<int, QString>> parseListings(QList<Listing*>);
     void write(QList<QMap<int, QString>> listData);
-    //ПЕРЕМЕННЫЕ
-    int row = 1;
-    QRegExp spaces;
-
-signals:
-
-public slots:
 
 private:
+    QList<QUrl> listinsList(const QByteArray arr);
     void ParseUyBor();
     QMap<int, QString> ParseUyBorPage(QByteArray arr, QStringList phone);
 
     Requesting *request;
     Write *writing;
     JsonReader *jsonReader;
-    UyBorHtmlParsing* parsing;
 };
 
 #endif // UYBOR_H

@@ -67,24 +67,7 @@ void ZorListing::parseTable(QMap<int, QString>& pairs, QGumboNode& node) const
     }
 }
 
-void ZorListing::addPair(QMap<int, QString>& pairs,const QGumboNode node, int key) const
-{
-    if(node) pairs.insert(key, node.innerText());
-}
 
-QGumboNode ZorListing::getElementByClassName(const QGumboNode& node, QString&& className) const
-{
-    QGumboNodes nodes = node.getElementsByClassName(className);
-    if(nodes.size())
-        return nodes.at(0);
-    return QGumboNode();
-}
 
-QGumboNode ZorListing::getElementByTagName(const QGumboNode& node,const HtmlTag tag) const
-{
-    QGumboNodes nodes = node.getElementsByTagName(tag);
-    if(nodes.size())
-        return nodes.at(0);
-    return QGumboNode();
-}
+
 

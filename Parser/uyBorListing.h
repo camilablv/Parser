@@ -12,6 +12,7 @@ public:
     QMap<int, QString> parsePage() const override;
     ~uyBorListing() override;
 private:
+    QMap<int, QString> listingData(QByteArray arr) const;
     QString phoneId(QByteArray arr) const;
     QString phoneToken(QByteArray arr) const;
 

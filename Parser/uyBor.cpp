@@ -5,7 +5,6 @@ UyBor::UyBor()
 {
     request = new Requesting;
     writing = new Write;
-    parsing = new UyBorHtmlParsing;
 }
 
 UyBor::~UyBor()
@@ -25,7 +24,7 @@ void UyBor::parse()
 QList<Listing *> UyBor::readListinsList(const QByteArray arr)
 {
     QList<Listing *> listings;
-    QList<QUrl> urls = parsing->listinsList(arr);
+    QList<QUrl> urls = listinsList(arr);
     for(auto x : urls)
         listings.append(new uyBorListing(x));
     return listings;
@@ -46,4 +45,7 @@ void UyBor::write(QList<QMap<int, QString>> listData)
 }
 
 
-
+QList<QUrl> UyBor::listinsList(const QByteArray arr)
+{
+    return jsonReader->adList(arr);
+}
