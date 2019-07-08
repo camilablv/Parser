@@ -36,9 +36,10 @@ QMap<int, QString> OlxListing::listingData(QByteArray arr, QByteArray phone) con
     data.insert(1, em.innerText());
     QGumboNode small = getElementByTagName(em, HtmlTag::SMALL);
     data.insert(45, innerText(small));
-//не получается достать дату и номер объявления. доделать позже
     QGumboNode details = getElementByClassName(root, "descriptioncontent");
     parseTable(data, details);
+    QGumboNode name = getElementByClassName(root, "offer-sidebar__box");
+    data.insert(21, innerText(getElementByTagName(name, HtmlTag::H4)));
     addPhones(data, phoneList(phone));
     QGumboNode textContent = getElementById(root, "textContent");
     addPair(data, textContent, 29);
@@ -52,7 +53,7 @@ QString OlxListing::innerText(const QGumboNode& node) const
     {
         return innerText(children.at(0));
     }
-    return node.innerText();
+    return node.innerText().trimmed();
 }
 
 void OlxListing::parseTable(QMap<int, QString> &pairs, QGumboNode &node) const
@@ -107,21 +108,6 @@ QList<QString> OlxListing::phoneList(const QByteArray &arr) const
         list.append(root.take("value").toString());
     }
     return std::move(list);
-
-//    QList<QString> list;
-//    QJsonDocument doc = QJsonDocument::fromJson(arr);
-//    QJsonObject root = doc.object();
-//    QJsonValue phones = root.value("phones");
-//    if(phones.isArray())
-//    {
-//        QJsonArray phoneArray = phones.toArray();
-//        for(int i = 0; i < phoneArray.count(); i++)
-//        {
-//            QJsonObject phone = phoneArray.at(i).toObject();
-//            list.append(phone.value("phone_original").toString());
-//        }
-//    }
-    //    return list;
 }
 
 void OlxListing::addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const
