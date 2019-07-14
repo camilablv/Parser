@@ -1,6 +1,10 @@
 QT += quick
 CONFIG += c++11
 
+folder_qml.source = QML
+folder_qml.target = /
+DEPLOYMENTFOLDERS += folder_qml
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -17,10 +21,8 @@ SOURCES += \
         main.cpp \
     controller.cpp \
     olx.cpp \
-    olxHtmlParsing.cpp \
     olxListing.cpp \
     parser.cpp \
-    uyBorHtmlParsing.cpp \
     uyBorListing.cpp \
     write.cpp \
     requesting.cpp \
@@ -29,10 +31,10 @@ SOURCES += \
     uyBor.cpp \
     zorListing.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += resources.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = QML
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -64,10 +66,8 @@ HEADERS += \
     controller.h \
     listing.h \
     olx.h \
-    olxHtmlParsing.h \
     olxListing.h \
     parser.h \
-    uyBorHtmlParsing.h \
     uyBorListing.h \
     write.h \
     requesting.h \
@@ -76,3 +76,7 @@ HEADERS += \
     jsonReader.h \
     uyBor.h \
     zorListing.h
+
+DISTFILES += \
+    QML/Components/Test.qml \
+    QML/main.qml

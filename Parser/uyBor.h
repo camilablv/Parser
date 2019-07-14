@@ -11,7 +11,6 @@
 #include <qgumboattribute.h>
 #include <QRegExp>
 #include "uyBorListing.h"
-#include "uyBorHtmlParsing.h"
 
 class UyBor : public Parser
 {

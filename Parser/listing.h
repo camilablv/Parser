@@ -18,6 +18,8 @@ protected:
     QGumboNode getElementById(const QGumboNode &node, QString&& id) const;
     QGumboNode getElementByTagName(const QGumboNode& node, const HtmlTag tag) const;
     void addPair(QMap<int, QString> &pairs, const QGumboNode &node, int key) const;
+    QString innerText(const QGumboNode& node) const;
+    void addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const;
     QUrl address;
 };
 

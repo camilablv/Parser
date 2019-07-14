@@ -2,13 +2,11 @@
 
 OlxListing::OlxListing(const QUrl address) : Listing(address)
 {
-    parsing = new OlxHtmlParsing;
     request = new Requesting;
 };
 
 OlxListing::~OlxListing()
 {
-    delete parsing;
     delete request;
 };
 

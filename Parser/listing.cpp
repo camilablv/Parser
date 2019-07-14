@@ -37,3 +37,20 @@ void Listing::addPair(QMap<int, QString>& pairs,const QGumboNode& node, int key)
 {
     pairs.insert(key, node.innerText().trimmed());
 }
+
+QString Listing::innerText(const QGumboNode& node) const
+{
+    auto children = node.children();
+    if(children.size())
+    {
+        return innerText(children.at(0));
+    }
+    return node.innerText().trimmed();
+}
+
+void Listing::addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const
+{
+    int telephoneNumberColumn = 22;
+    for(auto phone : phoneList)
+        pairs.insert(telephoneNumberColumn++, phone);
+}

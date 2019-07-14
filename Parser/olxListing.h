@@ -7,7 +7,6 @@
 #include <QVariant>
 #include "requesting.h"
 #include "listing.h"
-#include "olxHtmlParsing.h"
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonArray>
@@ -27,7 +26,6 @@ private:
     QString getId(const QByteArray& arr) const;
     QList<QString> phoneList(const QByteArray& arr) const;
     void addPhones(QMap<int, QString>& pairs, const QStringList& phoneList) const;
-    OlxHtmlParsing* parsing;
     Requesting* request;
     QMap<int, QString> descriptionElements{{4, "Объявление от"}, {16, "Тип строения"},
                                            {9, "Количество комнат"}, {12, "Общая площадь"},

@@ -13,7 +13,6 @@
 #include <QListIterator>
 #include "iterable.h"
 #include "olxListing.h"
-#include "olxHtmlParsing.h"
 
 template class Iterable<QList<Listing*>>;
 

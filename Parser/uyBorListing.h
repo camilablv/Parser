@@ -3,7 +3,7 @@
 
 #include "listing.h"
 #include "requesting.h"
-#include "uyBorHtmlParsing.h"
+#include "jsonReader.h"
 
 class uyBorListing: public Listing
 {
@@ -12,13 +12,13 @@ public:
     QMap<int, QString> parsePage() const override;
     ~uyBorListing() override;
 private:
-    QMap<int, QString> listingData(QByteArray arr) const;
-    QString phoneId(QByteArray arr) const;
-    QString phoneToken(QByteArray arr) const;
+    QMap<int, QString> listingData(const QByteArray& arr, const QStringList& phoneList) const;
+    QString getToken(const QByteArray& arr) const;
+    QString getId(const QByteArray& arr) const;
+    QList<QString> phoneList(const QByteArray &arr) const;
 
     JsonReader *jsonReader;
     Requesting *request;
-    UyBorHtmlParsing* parsing;
 };
 
 #endif // UYBORLISTING_H
