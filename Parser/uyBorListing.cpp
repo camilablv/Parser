@@ -34,6 +34,7 @@ QMap<int, QString> uyBorListing::listingData(const QByteArray& arr, const QStrin
     QGumboNode root = document.rootNode();
     data = jsonReader->listingData(getScriptData(root));
     addPhones(data, phoneList);
+    data.insert(1, "uybor");
     return data;
 }
 
@@ -55,19 +56,16 @@ QString uyBorListing::getToken(const QByteArray& arr) const
 }
 QString uyBorListing::getId(const QByteArray& arr) const
 {
-    return jsonReader->getUyBorID(arr);
+    QGumboDocument document = QGumboDocument::parse(arr);
+    QGumboNode root = document.rootNode();
+    return jsonReader->getUyBorID(getScriptData(root));
 }
 
 
 QList<QString> uyBorListing::phoneList(const QByteArray& arr) const
 {
-    return jsonReader->phoneList(arr);
-}
 
-QGumboNode uyBorListing::rootNode(const QByteArray& arr) const
-{
-    QGumboDocument document = QGumboDocument::parse(arr);
-    return document.rootNode();
+    return jsonReader->phoneList(arr);
 }
 
 QString uyBorListing::getScriptData(const QGumboNode& node) const

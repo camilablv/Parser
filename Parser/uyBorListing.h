@@ -17,7 +17,6 @@ private:
     QString getToken(const QByteArray& arr) const;
     QString getId(const QByteArray& arr) const;
     QList<QString> phoneList(const QByteArray& arr) const;
-    QGumboNode rootNode(const QByteArray& arr) const;
     QString getScriptData(const QGumboNode& node) const;
 
     JsonReader *jsonReader;
