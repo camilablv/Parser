@@ -50,7 +50,7 @@ QString Listing::innerText(const QGumboNode& node) const
 
 void Listing::addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const
 {
-    int telephoneNumberColumn = 22;
+    int telephoneNumberColumn = 16;
     for(auto phone : phoneList)
         pairs.insert(telephoneNumberColumn++, phone);
 }

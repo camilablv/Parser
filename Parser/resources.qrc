@@ -2,6 +2,5 @@
     <qresource prefix="/qml" lang="qml">
         <file>QML/main.qml</file>
         <file>QML/Components/Test.qml</file>
-        <file>QML/Components/Button.qml</file>
     </qresource>
 </RCC>

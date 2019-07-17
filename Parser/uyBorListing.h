@@ -4,6 +4,7 @@
 #include "listing.h"
 #include "requesting.h"
 #include "jsonReader.h"
+#include <QRegularExpression>
 
 class uyBorListing: public Listing
 {
@@ -15,7 +16,9 @@ private:
     QMap<int, QString> listingData(const QByteArray& arr, const QStringList& phoneList) const;
     QString getToken(const QByteArray& arr) const;
     QString getId(const QByteArray& arr) const;
-    QList<QString> phoneList(const QByteArray &arr) const;
+    QList<QString> phoneList(const QByteArray& arr) const;
+    QGumboNode rootNode(const QByteArray& arr) const;
+    QString getScriptData(const QGumboNode& node) const;
 
     JsonReader *jsonReader;
     Requesting *request;

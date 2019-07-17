@@ -1,5 +1,6 @@
 #include "uyBorListing.h"
 
+
 uyBorListing::uyBorListing(const QUrl address) : Listing(address)
 {
     request = new Requesting;
@@ -14,6 +15,12 @@ QMap<int, QString> uyBorListing::parsePage() const
 {
     QMap<int, QString> data;
     QByteArray page = request->pageText(address);
+//    QFile file("htmlUYBOR.txt");
+//    if(file.open(QIODevice::WriteOnly))
+//    {
+//        file.write(page);
+//        file.close();
+//    }
     QString id = getId(page);
     QString token = getToken(page);
     data = listingData(page, phoneList(request->uyBorPhoneText(id, token, address)));
@@ -23,58 +30,15 @@ QMap<int, QString> uyBorListing::parsePage() const
 QMap<int, QString> uyBorListing::listingData(const QByteArray& arr, const QStringList& phoneList) const
 {
     QMap<int, QString> data;
-    addPhones(data, phoneList);
     QGumboDocument document = QGumboDocument::parse(arr);
     QGumboNode root = document.rootNode();
-    data.insert(6, innerText( getElementByTagName(root, HtmlTag::HEAD)));
-
-    QGumboNode mainTag = getElementByClassName(root, "page__main");
-
-
-//    QGumboNode description = getElementById(mainTag, "view-description");
-//    data.insert(29, innerText(description));
-//    QGumboNode city = getElementByClassName(mainTag, "align-self-center");
-//    addPair(data, city, 2);
-
-
+    data = jsonReader->listingData(getScriptData(root));
+    addPhones(data, phoneList);
     return data;
 }
 
 
 QString uyBorListing::getToken(const QByteArray& arr) const
-{
-    QGumboDocument document = QGumboDocument::parse(arr);
-    QGumboNode root = document.rootNode(); //передаем тег <html> в root
-    QGumboNodes contentDiv = root.getElementById("content");
-    if(contentDiv.size() == 0) return "";
-    QGumboNodes test = contentDiv.at(0).childNodes();
-    QGumboNodes nodesSection = contentDiv.at(0).getElementsByClassName("listing__section");
-    for(uint i = 0; i < nodesSection.size(); i++)
-    {
-        QGumboAttributes attrSection = nodesSection.at(i).allAttributes();
-        for(uint j = 0; j < attrSection.size(); j++)
-        {
-            QGumboNodes dateAndIDNode = nodesSection.at(i).children();
-            if(dateAndIDNode.size() == 0) continue;
-            if(!dateAndIDNode.at(0).isElement()) continue;
-            QGumboAttributes attr = dateAndIDNode.at(0).allAttributes();
-            if(attr.size() == 0) continue;
-            if(attr.at(0).value() == "listing__data")
-            {
-                QGumboNodes nodesTr = dateAndIDNode.at(0).getElementsByTagName(HtmlTag::TR);
-                for(uint m = 0; m < nodesTr.size(); m++)
-                {
-                    QGumboNodes nodesTd = nodesTr.at(m).children();
-                    if(nodesTd.at(0).innerText() == "Номер объявления (ID):")
-                    return nodesTd.at(1).innerText();
-                }
-            }
-        }
-    }
-    return "";
-}
-
-QString uyBorListing::getId(const QByteArray& arr) const
 {
     QGumboDocument document = QGumboDocument::parse(arr);
     QGumboNode root = document.rootNode();
@@ -89,8 +53,35 @@ QString uyBorListing::getId(const QByteArray& arr) const
     }
     return "";
 }
+QString uyBorListing::getId(const QByteArray& arr) const
+{
+    return jsonReader->getUyBorID(arr);
+}
+
 
 QList<QString> uyBorListing::phoneList(const QByteArray& arr) const
 {
     return jsonReader->phoneList(arr);
+}
+
+QGumboNode uyBorListing::rootNode(const QByteArray& arr) const
+{
+    QGumboDocument document = QGumboDocument::parse(arr);
+    return document.rootNode();
+}
+
+QString uyBorListing::getScriptData(const QGumboNode& node) const
+{
+    QGumboNode bodyTag = getElementByTagName(node, HtmlTag::BODY);
+    QGumboNodes scripts = bodyTag.getElementsByTagName(HtmlTag::SCRIPT);
+    if(scripts.size())
+    {
+        QString script = scripts.at(4).innerText();
+        QRegularExpression rx("(?<=var listingViewData = )({.*});", QRegularExpression::InvertedGreedinessOption);
+        auto match = rx.match(script, 0, QRegularExpression::MatchType::PartialPreferCompleteMatch);
+        //auto error = rx.errorString();
+        auto captured = match.capturedTexts();
+        return  captured.at(1);
+    }
+    return "";
 }
