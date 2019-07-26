@@ -1,0 +1,20 @@
+#ifndef OLXQUERYBUILDERTEST_H
+#define OLXQUERYBUILDERTEST_H
+
+#include <QObject>
+#include "AutoTest.h"
+
+class OlxQueryBuilderTest : public QObject
+{
+    Q_OBJECT
+public:
+    explicit OlxQueryBuilderTest(QObject *parent = nullptr);
+
+signals:
+
+public slots:
+    
+};
+DECLARE_TEST(OlxQueryBuilderTest);
+
+#endif // OLXQUERYBUILDERTEST_H

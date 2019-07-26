@@ -26,8 +26,7 @@ QList<QUrl> Olx::listingsList(const QByteArray arr)
 QList<Listing*> Olx::readListingsList()
 {
     static int page = 1;
-    auto response = request->pageText(queryBuilder.toUrl(page/*++*/));
-    QList<QUrl> addresses = listingsList(response);
+    QList<QUrl> addresses = listingsList(request->pageText(queryBuilder.toUrl(page/*++*/)));
     QList<Listing*> listings;
     for(auto x : addresses)
         listings.append(new OlxListing(x));

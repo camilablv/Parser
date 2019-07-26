@@ -1,11 +1,8 @@
-#include "write.h"
+#include "Document.h"
 
-Write::Write(QObject *parent) : QObject(parent)
-{
+Document::Document(){}
 
-}
-
-void Write::writeToExcel(QMap<int, QString> list)
+void Document::writeToExcel(QMap<int, QString> list)
 {
     static int row = 1;
     QMapIterator<int, QString> iterator(list);

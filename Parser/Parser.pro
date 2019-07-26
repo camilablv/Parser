@@ -17,19 +17,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    listing.cpp \
-        main.cpp \
-    controller.cpp \
-    olx.cpp \
-    olxListing.cpp \
-    parser.cpp \
-    uyBorListing.cpp \
-    write.cpp \
-    requesting.cpp \
-    zor.cpp \
-    jsonReader.cpp \
-    uyBor.cpp \
-    zorListing.cpp
+    Controller.cpp \
+    Document.cpp \
+    JsonReader.cpp \
+    Listing.cpp \
+    Olx.cpp \
+    OlxListing.cpp \
+    OlxQueryBuilder.cpp \
+    Parser.cpp \
+    Requesting.cpp \
+    Site.cpp \
+    UyBor.cpp \
+    UyBorListing.cpp \
+    UyBorQueryBuilder.cpp \
+    Zor.cpp \
+    ZorListing.cpp \
+    ZorQueryBuilder.cpp \
+        main.cpp
 
 RESOURCES += resources.qrc
 
@@ -63,19 +67,23 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../libs/QGumboParser/QGumboParser/libQGum
 RC_FILE = appIcon.rc
 
 HEADERS += \
-    controller.h \
-    listing.h \
-    olx.h \
-    olxListing.h \
-    parser.h \
-    uyBorListing.h \
-    write.h \
-    requesting.h \
-    zor.h \
-    iterable.h \
-    jsonReader.h \
-    uyBor.h \
-    zorListing.h
+    Controller.h \
+    Document.h \
+    Iterable.h \
+    JsonReader.h \
+    Listing.h \
+    Olx.h \
+    OlxListing.h \
+    OlxQueryBuilder.h \
+    Parser.h \
+    Requesting.h \
+    Site.h \
+    UyBor.h \
+    UyBorListing.h \
+    UyBorQueryBuilder.h \
+    Zor.h \
+    ZorListing.h \
+    ZorQueryBuilder.h
 
 DISTFILES += \
     QML/Components/Test.qml \

@@ -7,12 +7,6 @@ JsonReader::JsonReader()
 
 QList<QUrl> JsonReader::adList(QByteArray arr)
 {
-    QFile file("text.txt");
-    if(file.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&file);
-        stream << arr;
-    }
     QList<QUrl> list;
     QJsonDocument doc = QJsonDocument::fromJson(arr);
     QJsonObject root = doc.object();

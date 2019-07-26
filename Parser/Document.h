@@ -1,16 +1,14 @@
-#ifndef WRITE_H
-#define WRITE_H
+#ifndef DOCUMENT_H
+#define DOCUMENT_H
 
-#include <QObject>
 #include <xlsxdocument.h>
 #include <xlsxcell.h>
 #include <xlsxformat.h>
 
-class Write : public QObject
+class Document
 {
-    Q_OBJECT
 public:
-    explicit Write(QObject *parent = nullptr);
+    explicit Document();
     void writeToExcel(QMap<int, QString> list);
 
 signals:
@@ -21,4 +19,4 @@ private:
     QXlsx::Document docXlsx;
 };
 
-#endif // WRITE_H
+#endif // DOCUMENT_H

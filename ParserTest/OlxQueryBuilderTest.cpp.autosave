@@ -1,0 +1,6 @@
+#include "Test_OlxQueryBuilder.h"
+
+OlxQueryBuilderTest::OlxQueryBuilderTest(QObject *parent) : QObject(parent)
+{
+
+}

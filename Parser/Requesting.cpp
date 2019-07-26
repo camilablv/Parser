@@ -15,11 +15,7 @@ QByteArray Requesting::pageText(QUrl pageUrl)
     QNetworkRequest request(pageUrl);
     QNetworkReply *reply = manager->get(request);
     connect(reply,SIGNAL(finished()), &eventLoop, SLOT(quit()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), &eventLoop, SLOT(quit()));
     eventLoop.exec();
-    auto error = reply->error();
-    auto msg = reply->errorString();
-    auto status = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute).toInt();
     reply->deleteLater();
     return reply->readAll();
 }
