@@ -12,6 +12,7 @@
 #include <QListIterator>
 #include "OlxListing.h"
 #include"OlxQueryBuilder.h"
+#include <memory>
 
 
 
@@ -19,7 +20,7 @@ class Olx : public Site
 {
 public:
     explicit Olx(OlxQueryBuilder QBuilder);
-    QList<Listing*> readListingsList();
+    QList<std::shared_ptr<Listing> > readListingsList();
     ~Olx();
 
 private:

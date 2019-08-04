@@ -1,4 +1,4 @@
-QT += testlib
+QT += testlib sql
 QT -= gui
 
 CONFIG += qt console warn_on depend_includepath testcase
@@ -10,6 +10,8 @@ SOURCES +=  \
     ../Parser/OlxQueryBuilder.cpp \
     ../Parser/ZorQueryBuilder.cpp \
     ../Parser/UyBorQueryBuilder.cpp \
+    ../Parser/DataBase.cpp \
+    TestDataBase.cpp \
     TestOlxQueryBuilder.cpp \
     TestUyBorQueryBuilder.cpp \
     TestZorQueryBuilder.cpp \
@@ -17,6 +19,7 @@ SOURCES +=  \
 
 HEADERS += \
     AutoTest.h \
+    TestDataBase.h \
     TestOlxQueryBuilder.h \
     TestUyBorQueryBuilder.h \
     TestZorQueryBuilder.h

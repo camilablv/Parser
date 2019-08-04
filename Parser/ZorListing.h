@@ -9,21 +9,22 @@ class ZorListing: public Listing
 {
 public:
     ZorListing(const QUrl address);
-    QMap<int, QString> parsePage() const override;
+    QMap<QString, QString> parsePage() const override;
     ~ZorListing() override;
 
 private:
     Requesting* request;
-    QMap<int, QString> listingData(QByteArray arr) const;
-    void parseTable(QMap<int, QString>& pairs, QGumboNode& node) const;
+    QMap<QString, QString> listingData(QByteArray arr) const;
+    void parseTable(QMap<QString, QString> &pairs, QGumboNode& node) const;
 
 
 
-    QMap<int, QString> descriptionElements{{5, "Район:"}, {6, "Улица:"},
-                                           {9, "Количество комнат:"}, {12, "Общая площадь"},
-                                           {10, "Этаж квартиры:"}, {11, "Этажность дома:"},
-                                           {15, "Материал стен:"}, {17, "Ремонт:"}, {12, "Общая площадь:"},
-                                           {30, "Дополнительно:"}};
+    QMap<QString, QString> descriptionElements{{"address", "Район:"}, {"address", "Улица:"},
+                                           {"rooms", "Количество комнат:"}, {"floor", "Этаж квартиры:"},
+                                           {"number_of_floors", "Этажность дома:"},
+                                           {"wall_material", "Материал стен:"}, {"condition", "Ремонт:"}, {"square", "Общая площадь:"},
+                                           {"additionally", "Дополнительно:"}};
 };
 
 #endif // ZORLISTING_H
+

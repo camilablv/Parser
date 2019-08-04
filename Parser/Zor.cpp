@@ -25,13 +25,13 @@ QList<QUrl> Zor::listingsList(const QByteArray arr)
     return listings;
 }
 
-QList<Listing *> Zor::readListingsList()
+QList<std::shared_ptr<Listing>> Zor::readListingsList()
 {
     static int page = 1;
     QList<QUrl> addresses = listingsList(request->pageText(queryBuilder.toUrl(page/*++*/)));
-    QList<Listing*> listings;
+    QList<std::shared_ptr<Listing>> listings;
     for(auto x : addresses)
-        listings.append(new ZorListing(x));
+        listings.append(std::shared_ptr<ZorListing>(new ZorListing(x)));
     return listings;
 }
 

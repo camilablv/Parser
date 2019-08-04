@@ -14,6 +14,8 @@
 #include "Parser.h"
 #include "Site.h"
 #include "Document.h"
+#include <DataBase.h>
+#include <memory>
 
 class Controller : public QObject
 {
@@ -29,7 +31,7 @@ public slots:
 private:
     QQmlApplicationEngine engine;
     QObject *root;
-    Document doc;
+    Document* doc;
 };
 
 #endif // CONTROLLER_H

@@ -17,7 +17,7 @@ class Zor : public Site
 public:
     explicit Zor(ZorQueryBuilder QBuilder);
     ~Zor();
-    QList<Listing*> readListingsList();
+    QList<std::shared_ptr<Listing>> readListingsList();
 
 private:
     QList<QUrl> listingsList(const QByteArray arr);

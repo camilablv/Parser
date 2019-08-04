@@ -19,12 +19,12 @@ QList<QUrl> UyBor::listingsList(const QByteArray arr)
     return jsonReader->adList(arr);
 }
 
-QList<Listing *> UyBor::readListingsList()
+QList<std::shared_ptr<Listing>> UyBor::readListingsList()
 {
     static int page = 1;
     QList<QUrl> addresses = listingsList(request->pageText(queryBuilder.toUrl(2/*++*/)));
-    QList<Listing*> listings;
+    QList<std::shared_ptr<Listing>> listings;
     for(auto x : addresses)
-        listings.append(new UyBorListing(x));
+        listings.append(std::shared_ptr<UyBorListing>(new UyBorListing(x)));
     return listings;
 }

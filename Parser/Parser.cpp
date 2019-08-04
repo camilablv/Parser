@@ -1,40 +1,36 @@
 #include "Parser.h"
 
-Parser::Parser(Document &document, Site* site)
+Parser::Parser(DataBase &document, std::shared_ptr<Site> site)
 {
-    doc = &document;
+    db = &document;
     webSite = site;
     request = new Requesting();
 }
 Parser::~Parser()
 {
-    delete doc;
-    delete webSite;
     delete request;
 };
 
 void Parser::parse()
 {
-    QList<QMap<int, QString>> listingsData = parseListings(webSite->readListingsList());
+    QList<QMap<QString, QString>> listingsData = parseListings(webSite->readListingsList());
     write(listingsData);
 }
 
 
-QList<QMap<int, QString>> Parser::parseListings(const QList<Listing*> listings)
+QList<QMap<QString, QString>> Parser::parseListings(const QList<std::shared_ptr<Listing>> listings)
 {
-   QList<QMap<int, QString>> listingsData;
-   auto lambda = [&](Listing* listing)->void{
+   QList<QMap<QString, QString>> listingsData;
+   auto lambda = [&](std::shared_ptr<Listing> listing)->void{
        listingsData.append(listing->parsePage());
    };
-   Iterable<QList<Listing*>> iterator(listings);
+   Iterable<QList<std::shared_ptr<Listing>>> iterator(listings);
    iterator.forEach(lambda);
-   for(auto x : listings) //временное решение для чистки памяти, потом воспользуюсь смарт поинтерами
-       delete x;
    return listingsData;
 }
 
-void Parser::write(QList<QMap<int, QString>> listData)
+void Parser::write(QList<QMap<QString, QString>> listData)
 {
     for(auto x: listData)
-        doc->writeToExcel(x);
+        db->insert(x);
 }

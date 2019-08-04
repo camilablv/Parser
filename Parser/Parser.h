@@ -5,7 +5,7 @@
 #include <QMap>
 #include "Iterable.h"
 #include "Listing.h"
-#include <Document.h>
+#include "DataBase.h"
 #include "Requesting.h"
 #include "Site.h"
 
@@ -14,15 +14,15 @@ template class Iterable<QList<Listing*>>;
 class Parser
 {
 public:
-    explicit Parser(Document& document, Site* site);
+    explicit Parser(DataBase& document, std::shared_ptr<Site> site);
     void parse();
     QList<Listing*> readListinsList(const QByteArray arr);
-    QList<QMap<int, QString>> parseListings(QList<Listing*>);
-    void write(QList<QMap<int, QString>>);
+    QList<QMap<QString, QString>> parseListings(const QList<std::shared_ptr<Listing> >);
+    void write(QList<QMap<QString, QString> >);
     ~Parser();
 private:
-    Document* doc;
-    Site* webSite;
+    DataBase* db;
+    std::shared_ptr<Site> webSite;
     Requesting *request;
 };
 

@@ -9,7 +9,7 @@ class Document
 {
 public:
     explicit Document();
-    void writeToExcel(QMap<int, QString> list);
+    void writeToExcel(QMap<QString, QString> list);
 
 signals:
 

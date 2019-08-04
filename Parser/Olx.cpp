@@ -23,13 +23,13 @@ QList<QUrl> Olx::listingsList(const QByteArray arr)
     return listings;
 }
 
-QList<Listing*> Olx::readListingsList()
+QList<std::shared_ptr<Listing>> Olx::readListingsList()
 {
     static int page = 1;
     QList<QUrl> addresses = listingsList(request->pageText(queryBuilder.toUrl(page/*++*/)));
-    QList<Listing*> listings;
+    QList<std::shared_ptr<Listing>> listings;
     for(auto x : addresses)
-        listings.append(new OlxListing(x));
+        listings.append(std::shared_ptr<OlxListing>(new OlxListing(x)));
     return listings;
 }
 

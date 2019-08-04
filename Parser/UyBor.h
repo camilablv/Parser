@@ -18,7 +18,7 @@ class UyBor : public Site
 public:
     explicit UyBor(UyBorQueryBuilder QBuilder);
     ~UyBor();
-    QList<Listing*> readListingsList();
+    QList<std::shared_ptr<Listing> > readListingsList();
 
 private:
     QList<QUrl> listingsList(const QByteArray arr);

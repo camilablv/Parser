@@ -17,7 +17,7 @@ public:
     QList<QUrl> adList(QByteArray arr);
     int lastPage(QByteArray arr);
     QStringList phoneList(QByteArray arr);
-    QMap<int, QString> listingData(const QString& data) const;
+    QMap<QString, QString> listingData(const QString& data) const;
     QString getUyBorID(const QString& data) const;
 
 private:

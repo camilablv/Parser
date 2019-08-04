@@ -1,4 +1,4 @@
-QT += quick
+QT += quick sql
 CONFIG += c++11
 
 folder_qml.source = QML
@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Controller.cpp \
+    DataBase.cpp \
     Document.cpp \
     JsonReader.cpp \
     Listing.cpp \
@@ -54,8 +55,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../libs/QGumboParser/Q
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../libs/QGumboParser/QGumboParser/debug/ -lQGumboParser
 else:unix: LIBS += -L$$OUT_PWD/../libs/QGumboParser/QGumboParser/ -lQGumboParser
 
-INCLUDEPATH += $$PWD/../libs/QGumboParser/QGumboParser \
-    C:/Program Files (x86)/OpenSSL-Win32
+INCLUDEPATH += $$PWD/../libs/QGumboParser/QGumboParser #\
+#    C:/Program Files (x86)/OpenSSL-Win32
 DEPENDPATH += $$PWD/../libs/QGumboParser/QGumboParser
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../libs/QGumboParser/QGumboParser/release/libQGumboParser.a
@@ -68,6 +69,7 @@ RC_FILE = appIcon.rc
 
 HEADERS += \
     Controller.h \
+    DataBase.h \
     Document.h \
     Iterable.h \
     JsonReader.h \

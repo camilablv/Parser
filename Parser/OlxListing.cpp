@@ -10,9 +10,9 @@ OlxListing::~OlxListing()
     delete request;
 };
 
-QMap<int, QString> OlxListing::parsePage() const
+QMap<QString, QString> OlxListing::parsePage() const
 {
-    QMap<int, QString> data;
+    QMap<QString, QString> data;
     QByteArray page = request->pageText(address);
     QString id = getId(page);
     QString token = getToken(page);
@@ -20,27 +20,27 @@ QMap<int, QString> OlxListing::parsePage() const
     return data;
 }
 
-QMap<int, QString> OlxListing::listingData(QByteArray arr, QByteArray phone) const
+QMap<QString, QString> OlxListing::listingData(QByteArray arr, QByteArray phone) const
 {
-    QMap<int, QString> data;
+    QMap<QString, QString> data;
     QGumboDocument document = QGumboDocument::parse(arr);
     QGumboNode root = document.rootNode();
     QGumboNode title = getElementByTagName(root, HtmlTag::H1);
-    addPair(data, title, 6);
+    addPair(data, title, "title");
     QGumboNode titleboxDetails = getElementByClassName(root, "offer-titlebox__details");
     QGumboNode city = getElementByTagName(titleboxDetails, HtmlTag::STRONG);
-    addPair(data, city, 2);
+    addPair(data, city, "address");
     QGumboNode em = getElementByTagName(titleboxDetails, HtmlTag::EM);
-    data.insert(1, em.innerText());
+    data.insert("date", em.innerText());
     QGumboNode small = getElementByTagName(em, HtmlTag::SMALL);
-    data.insert(45, innerText(small));
+    data.insert("id", innerText(small));
     QGumboNode details = getElementByClassName(root, "descriptioncontent");
     parseTable(data, details);
     QGumboNode name = getElementByClassName(root, "offer-sidebar__box");
-    data.insert(21, innerText(getElementByTagName(name, HtmlTag::H4)));
+    data.insert("name", innerText(getElementByTagName(name, HtmlTag::H4)));
     addPhones(data, phoneList(phone));
     QGumboNode textContent = getElementById(root, "textContent");
-    addPair(data, textContent, 29);
+    addPair(data, textContent, "description");
     return data;
 }
 
@@ -54,7 +54,7 @@ QString OlxListing::innerText(const QGumboNode& node) const
     return node.innerText().trimmed();
 }
 
-void OlxListing::parseTable(QMap<int, QString> &pairs, QGumboNode &node) const
+void OlxListing::parseTable(QMap<QString, QString> &pairs, QGumboNode &node) const
 {
     QGumboNodes tdTags = node.getElementsByTagName(HtmlTag::TD);
     for(auto tag : tdTags)
@@ -64,7 +64,7 @@ void OlxListing::parseTable(QMap<int, QString> &pairs, QGumboNode &node) const
             QGumboNode tr = getElementByTagName(tag, HtmlTag::TR);
             QGumboNode td = getElementByTagName(tr, HtmlTag::TD);
             QGumboNode th = getElementByTagName(tr, HtmlTag::TH);
-            QMapIterator<int, QString> description(descriptionElements);
+            QMapIterator<QString, QString> description(descriptionElements);
             while(description.hasNext()){
                 description.next();
                 if(th.innerText() == description.value())
@@ -108,9 +108,9 @@ QList<QString> OlxListing::phoneList(const QByteArray &arr) const
     return std::move(list);
 }
 
-void OlxListing::addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const
-{
-    int telephoneNumberColumn = 22;
-    for(auto phone : phoneList)
-        pairs.insert(telephoneNumberColumn++, phone);
-}
+//void OlxListing::addPhones(QMap<QString, QString>& pairs,const QStringList &phoneList) const
+//{
+//    int telephoneNumberColumn = 22;
+//    for(auto phone : phoneList)
+//        pairs.insert(telephoneNumberColumn++, phone);
+//}

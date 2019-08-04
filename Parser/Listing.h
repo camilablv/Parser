@@ -11,15 +11,15 @@ class Listing
 {
 public:
     explicit Listing(const QUrl url);
-    virtual QMap<int, QString> parsePage() const = 0;
+    virtual QMap<QString, QString> parsePage() const = 0;
     virtual ~Listing();
 protected:
     QGumboNode getElementByClassName(const QGumboNode &node, QString&& className) const;
     QGumboNode getElementById(const QGumboNode &node, QString&& id) const;
     QGumboNode getElementByTagName(const QGumboNode& node, const HtmlTag tag) const;
-    void addPair(QMap<int, QString> &pairs, const QGumboNode &node, int key) const;
+    void addPair(QMap<QString, QString> &pairs, const QGumboNode &node, QString key) const;
     QString innerText(const QGumboNode& node) const;
-    void addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const;
+    void addPhones(QMap<QString, QString>& pairs,const QStringList &phoneList) const;
     QUrl address;
 };
 

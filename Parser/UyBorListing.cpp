@@ -11,30 +11,24 @@ UyBorListing::~UyBorListing()
     delete request;
 }
 
-QMap<int, QString> UyBorListing::parsePage() const
+QMap<QString, QString> UyBorListing::parsePage() const
 {
-    QMap<int, QString> data;
+    QMap<QString, QString> data;
     QByteArray page = request->pageText(address);
-//    QFile file("htmlUYBOR.txt");
-//    if(file.open(QIODevice::WriteOnly))
-//    {
-//        file.write(page);
-//        file.close();
-//    }
     QString id = getId(page);
     QString token = getToken(page);
     data = listingData(page, phoneList(request->uyBorPhoneText(id, token, address)));
     return data;
 }
 
-QMap<int, QString> UyBorListing::listingData(const QByteArray& arr, const QStringList& phoneList) const
+QMap<QString, QString> UyBorListing::listingData(const QByteArray& arr, const QStringList& phoneList) const
 {
-    QMap<int, QString> data;
+    QMap<QString, QString> data;
     QGumboDocument document = QGumboDocument::parse(arr);
     QGumboNode root = document.rootNode();
     data = jsonReader->listingData(getScriptData(root));
     addPhones(data, phoneList);
-    data.insert(1, "uybor");
+    data.insert("source", "uybor");
     return data;
 }
 
@@ -77,7 +71,6 @@ QString UyBorListing::getScriptData(const QGumboNode& node) const
         QString script = scripts.at(4).innerText();
         QRegularExpression rx("(?<=var listingViewData = )({.*});", QRegularExpression::InvertedGreedinessOption);
         auto match = rx.match(script, 0, QRegularExpression::MatchType::PartialPreferCompleteMatch);
-        //auto error = rx.errorString();
         auto captured = match.capturedTexts();
         return  captured.at(1);
     }

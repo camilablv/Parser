@@ -33,7 +33,7 @@ QGumboNode Listing::getElementByTagName(const QGumboNode& node,const HtmlTag tag
     return QGumboNode();
 }
 
-void Listing::addPair(QMap<int, QString>& pairs,const QGumboNode& node, int key) const
+void Listing::addPair(QMap<QString, QString>& pairs,const QGumboNode& node, QString key) const
 {
     pairs.insert(key, node.innerText().trimmed());
 }
@@ -48,9 +48,9 @@ QString Listing::innerText(const QGumboNode& node) const
     return node.innerText().trimmed();
 }
 
-void Listing::addPhones(QMap<int, QString>& pairs,const QStringList &phoneList) const
+void Listing::addPhones(QMap<QString, QString> &pairs, const QStringList &phoneList) const
 {
-    int telephoneNumberColumn = 16;
+    int phoneNumber = 1;
     for(auto phone : phoneList)
-        pairs.insert(telephoneNumberColumn++, phone);
+        pairs.insert("phone" + QString::number(phoneNumber++), phone);
 }

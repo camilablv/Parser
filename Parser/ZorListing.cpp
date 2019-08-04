@@ -10,44 +10,44 @@ ZorListing::~ZorListing()
     delete request;
 }
 
-QMap<int, QString> ZorListing::parsePage() const
+QMap<QString, QString> ZorListing::parsePage() const
 {
     return listingData(request->pageText(address));
 }
 
-QMap<int, QString> ZorListing::listingData(QByteArray arr) const
+QMap<QString, QString> ZorListing::listingData(QByteArray arr) const
 {
-    QMap<int, QString> data;
+    QMap<QString, QString> data;
     QGumboDocument doc = QGumboDocument::parse(arr);
     QGumboNode root = doc.rootNode();
     parseTable(data, root);
-    //QGumboNode title = getElementByClassName(root, "offer_title"); это не нужно
-    addPair(data,getElementByTagName(root, HtmlTag::H1), 6);
+    addPair(data,getElementByTagName(root, HtmlTag::H1), "title");
     QGumboNode table = getElementByClassName(root, "cyantable");
     QGumboNodes spanTags = table.getElementsByTagName(HtmlTag::SPAN);
-    int telephoneNumberColumn = 22;
+    QStringList phoneList;
     for(auto span : spanTags)
-        data.insert(telephoneNumberColumn++, span.innerText());
+        phoneList.append(span.innerText());
+    addPhones(data, phoneList);
     QGumboNode price = getElementByClassName(root, "theprice");
-    addPair(data, getElementByTagName(price, HtmlTag::B), 33);
+    addPair(data, getElementByTagName(price, HtmlTag::B), "price");
     QGumboNode description = getElementByClassName(root, "description");
     QGumboNodes pTags = description.getElementsByTagName(HtmlTag::P);
     QString descr;
     for(auto p : pTags)
         descr += p.innerText();
-    data.insert(29, descr);
+    data.insert("description", descr);
     QGumboNode stats = getElementByClassName(root, "offer_stats");
     QGumboNodes iTags = stats.getElementsByTagName(HtmlTag::I);
     if(iTags.size())
     {
-        data.insert(45, iTags.at(2).innerText());
-        data.insert(34, iTags.at(1).innerText());
+        data.insert("id", iTags.at(2).innerText());
+        data.insert("name", iTags.at(1).innerText());
     }
     return data;
 }
 
 
-void ZorListing::parseTable(QMap<int, QString>& pairs, QGumboNode& node) const
+void ZorListing::parseTable(QMap<QString, QString>& pairs, QGumboNode& node) const
 {
     QGumboNode properties = getElementByClassName(node, "wpic");
     QGumboNodes trTags = properties.getElementsByTagName(HtmlTag::TR);
@@ -58,7 +58,7 @@ void ZorListing::parseTable(QMap<int, QString>& pairs, QGumboNode& node) const
     {
         QGumboNode th = getElementByTagName(tr, HtmlTag::TH);
         QGumboNode td = getElementByTagName(tr, HtmlTag::TD);
-        QMapIterator<int, QString> description(descriptionElements);
+        QMapIterator<QString, QString> description(descriptionElements);
         while(description.hasNext()){
             description.next();
             if(th.innerText() == description.value())

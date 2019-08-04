@@ -16,21 +16,21 @@ class OlxListing : public Listing
 {
 public:
     OlxListing(const QUrl address);
-    QMap<int, QString> parsePage() const override;
-    QMap<int, QString> listingData(QByteArray arr, QByteArray phone) const;
+    QMap<QString, QString> parsePage() const override;
+    QMap<QString, QString> listingData(QByteArray arr, QByteArray phone) const;
     ~OlxListing() override;
 private:
     QString innerText(const QGumboNode& node) const;
-    void parseTable(QMap<int, QString>& pairs, QGumboNode& node) const;
+    void parseTable(QMap<QString, QString> &pairs, QGumboNode& node) const;
     QString getToken(const QByteArray& arr) const;
     QString getId(const QByteArray& arr) const;
     QList<QString> phoneList(const QByteArray& arr) const;
-    void addPhones(QMap<int, QString>& pairs, const QStringList& phoneList) const;
+    //void addPhones(QMap<QString, QString>& pairs, const QStringList& phoneList) const;
     Requesting* request;
-    QMap<int, QString> descriptionElements{{4, "Объявление от"}, {16, "Тип строения"},
-                                           {9, "Количество комнат"}, {12, "Общая площадь"},
-                                           {10, "Этаж"}, {11, "Этажность дома"},
-                                           {15, "Планировка"}, {17, "Ремонт"}};
+    QMap<QString, QString> descriptionElements{{"from", "Объявление от"}, {"real_estate_type", "Тип строения"},
+                                           {"rooms", "Количество комнат"}, {"square", "Общая площадь"},
+                                           {"floor", "Этаж"}, {"number_of_floors", "Этажность дома"},
+                                           {"planning", "Планировка"}, {"condition", "Ремонт"}};
 };
 
 #endif // OLXLISTING_H

@@ -19,11 +19,8 @@ Controller::~Controller()
 
 void Controller::start()
 {
-//    OlxQueryBuilder builder("kvartiry", "prodazha");
-//    Site* site = new Olx(builder);
     DataBase db = DataBase::instance();
     UyBorQueryBuilder builder("kvartiry-v-tashkente", "prodazha-kvartir");
-    //Site* site = new UyBor(builder);
     std::shared_ptr<Site> site(new UyBor(builder));
     Parser parser(db, site);
     parser.parse();

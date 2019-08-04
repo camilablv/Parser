@@ -10,10 +10,10 @@ class UyBorListing: public Listing
 {
 public:
     UyBorListing(const QUrl address);
-    QMap<int, QString> parsePage() const override;
+    QMap<QString, QString> parsePage() const override;
     ~UyBorListing() override;
 private:
-    QMap<int, QString> listingData(const QByteArray& arr, const QStringList& phoneList) const;
+    QMap<QString, QString> listingData(const QByteArray& arr, const QStringList& phoneList) const;
     QString getToken(const QByteArray& arr) const;
     QString getId(const QByteArray& arr) const;
     QList<QString> phoneList(const QByteArray& arr) const;
